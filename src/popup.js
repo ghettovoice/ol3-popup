@@ -94,7 +94,7 @@ ol.Overlay.Popup = (function(ol) {
         this.container.appendChild(this.content);
 
         // Apply workaround to enable scrolling of content div on touch devices
-        Popup.enableTouchScroll_(this.content);
+        enableTouchScroll_(this.content);
 
         if (options.content) {
             this.setContent(options.content);
@@ -169,38 +169,38 @@ ol.Overlay.Popup = (function(ol) {
      * @private
      */
     Popup.prototype.panIntoView = function(coord) {
-
         var popSize = {
                 width: this.getElement().clientWidth + 20,
                 height: this.getElement().clientHeight + 20
             },
             mapSize = this.getMap().getSize();
 
-        var tailHeight      = 20,
-            tailOffsetLeft  = 60,
+        var tailHeight = 20,
+            tailOffsetLeft = 60,
             tailOffsetRight = popSize.width - tailOffsetLeft,
-            popOffset       = this.getOffset(),
-            popPx           = this.getMap().getPixelFromCoordinate(coord);
+            popOffset = this.getOffset(),
+            popPx = this.getMap().getPixelFromCoordinate(coord);
 
-        var fromLeft  = (popPx[0] - tailOffsetLeft),
+        var fromLeft = (popPx[0] - tailOffsetLeft),
             fromRight = mapSize[0] - (popPx[0] + tailOffsetRight);
 
-        var fromTop    = popPx[1] - popSize.height + popOffset[1],
+        var fromTop = popPx[1] - popSize.height + popOffset[1],
             fromBottom = mapSize[1] - (popPx[1] + tailHeight) - popOffset[1];
 
         var center = this.getMap().getView().getCenter(),
-            px     = this.getMap().getPixelFromCoordinate(center);
+            curPx = this.getMap().getPixelFromCoordinate(center),
+            newPx = curPx.slice();
 
         if (fromRight < 0) {
-            px[0] -= fromRight;
+            newPx[0] -= fromRight;
         } else if (fromLeft < 0) {
-            px[0] += fromLeft;
+            newPx[0] += fromLeft;
         }
 
         if (fromTop < 0) {
-            px[1] += fromTop;
+            newPx[1] += fromTop;
         } else if (fromBottom < 0) {
-            px[1] -= fromBottom;
+            newPx[1] -= fromBottom;
         }
 
         if (this.ani && this.ani_opts) {
@@ -208,7 +208,9 @@ ol.Overlay.Popup = (function(ol) {
             this.getMap().beforeRender(this.ani(this.ani_opts));
         }
 
-        this.getMap().getView().setCenter(this.getMap().getCoordinateFromPixel(px));
+        if (newPx[0] !== curPx[0] || newPx[1] !== curPx[1]) {
+            this.getMap().getView().setCenter(this.getMap().getCoordinateFromPixel(newPx));
+        }
 
         return this.getMap().getView().getCenter();
     };
@@ -240,6 +242,37 @@ ol.Overlay.Popup = (function(ol) {
 
         return this;
     };
+
+    /**
+     * @private
+     * @desc Determine if the current browser supports touch events. Adapted from
+     * https://gist.github.com/chrismbarr/4107472
+     */
+    function isTouchDevice_() {
+        try {
+            document.createEvent("TouchEvent");
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    /**
+     * @private
+     * @desc Apply workaround to enable scrolling of overflowing content within an
+     * element. Adapted from https://gist.github.com/chrismbarr/4107472
+     */
+    function enableTouchScroll_(elm) {
+        if (isTouchDevice_()) {
+            var scrollStartPos = 0;
+            elm.addEventListener("touchstart", function(event) {
+                scrollStartPos = this.scrollTop + event.touches[0].pageY;
+            }, false);
+            elm.addEventListener("touchmove", function(event) {
+                this.scrollTop = scrollStartPos - event.touches[0].pageY;
+            }, false);
+        }
+    }
 
     return Popup;
 }(ol));
