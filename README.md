@@ -2,6 +2,7 @@
 
 Basic popup for an OL3 map. By default the map is centered so that the popup is
 entirely visible.
+Extended version: adds SHOW/ HIDE events and other features.
 
 ## Demo
 
@@ -20,7 +21,7 @@ Based on an example by [Tim Schaub](https://github.com/tschaub) posted on the
 
 ### `new ol.Overlay.Popup(opt_options)`
 
-
+Extended OpenLayers 3 Popup Overlay.
 
 #### Parameters:
 

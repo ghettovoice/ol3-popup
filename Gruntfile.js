@@ -50,6 +50,32 @@ module.exports = function(grunt) {
                     dest: '<%= paths.dest %>/<%= basename %>.js'
                 }]
             }
+        },
+        doc: {
+            build: {}
+        }
+    });
+
+    grunt.registerMultiTask("doc", "build documentation", function() {
+        var done = this.async(),
+            exec = require('child_process').exec;
+
+        grunt.log.writeln("doc: build documentation");
+
+        try {
+            var cmd = 'node_modules/.bin/jsdoc --explain src/popup.js | node_modules/.bin/dirtydocs util/README.md > README.md';
+            exec(cmd, function(err, stdout, stderr) {
+                if (err != null) {
+                    grunt.log.error("doc: an error occurred " + err.message);
+                    done(false);
+                    return;
+                }
+
+                done();
+            });
+        } catch (e) {
+            grunt.log.error("doc: an error occurred " + e.message);
+            done(false);
         }
     });
 
@@ -58,5 +84,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-umd-wrapper');
 
-    grunt.registerTask("default", ['concat', 'umd_wrapper:build', 'uglify:build', 'cssmin:build']);
+    grunt.registerTask("default", ['concat', 'umd_wrapper:build', 'uglify:build', 'cssmin:build', 'doc:build']);
 };

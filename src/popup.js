@@ -2,6 +2,8 @@
  * Extended OpenLayers 3 Popup Overlay.
  * See [the examples](./examples) for usage. Styling can be done via CSS.
  *
+ * @copyright (c) Matt Walker.
+ * @licence MIT
  */
 ol.Overlay.Popup = (function(ol) {
     /**
@@ -15,6 +17,7 @@ ol.Overlay.Popup = (function(ol) {
     };
 
     /**
+     * @desc Extended OpenLayers 3 Popup Overlay.
      * @constructs
      * @extends ol.Overlay
      * @param {Object} opt_options Overlay options, extends olx.OverlayOptions adding:
