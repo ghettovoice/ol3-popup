@@ -2,6 +2,7 @@
 
 Basic popup for an OL3 map. By default the map is centered so that the popup is
 entirely visible.
+Extended version: adds SHOW/ HIDE events and other features.
 
 ## Demo
 

@@ -1,27 +1,26 @@
 # OpenLayers 3 Popup
 
-Basic popup overlay for an [OL3](https://github.com/openlayers/ol3) map. By
-default the map is centred so that the popup is entirely visible.
+Basic popup for an OL3 map. By default the map is centered so that the popup is
+entirely visible.
 
-## Examples
+## Demo
 
-The examples demonstrate usage and can be viewed online thanks to [RawGit](http://rawgit.com/):
+Clone or download the repository and open
+[examples/popup.html](examples/popup.html) in a browser or [view the example on
+RawGit](http://rawgit.com/walkermatt/ol3-popup/master/examples/popup.html).
+Click on the map to display a popup, click close to the edge of the map to see
+it pan into view.
 
-* [Basic usage](http://rawgit.com/walkermatt/ol3-popup/master/examples/popup.html)
-    * Create a popup instance, show it on single-click specifying the content
-* [DOM Events](http://rawgit.com/walkermatt/ol3-popup/master/examples/dom-events.html)
-    * Handle DOM events triggered by interacting with elements within the popup content
-* [Scroll](http://rawgit.com/walkermatt/ol3-popup/master/examples/scroll.html)
-    * Controlling popup dimensions and scrolling overflowing content
+## Credit
 
-The source for all examples can be found in [examples](examples).
+Based on an example by [Tim Schaub](https://github.com/tschaub) posted on the
+[OL3-Dev list](https://groups.google.com/forum/#!forum/ol3-dev).
 
 ## API
 
 ### `new ol.Overlay.Popup(opt_options)`
 
-OpenLayers 3 Popup Overlay.
-See [the examples](./examples) for usage. Styling can be done via CSS.
+
 
 #### Parameters:
 
@@ -35,7 +34,33 @@ See [the examples](./examples) for usage. Styling can be done via CSS.
 
 #### Methods
 
-##### `show(coord,html)`
+##### `setContent(content)`
+
+Sets popup inner content.
+
+###### Parameters:
+
+|Name|Type|Description|
+|:---|:---|:----------|
+|`content`|`string`|  |
+
+
+##### `setMap(map)`
+
+Set the map to be associated with this overlay.
+
+###### Parameters:
+
+|Name|Type|Description|
+|:---|:---|:----------|
+|`map`|`ol.Map`| The map that the overlay is part of. |
+
+
+##### `getContent()`
+
+Returns inner content.
+
+##### `show(coord,content)`
 
 Show the popup.
 
@@ -43,22 +68,21 @@ Show the popup.
 
 |Name|Type|Description|
 |:---|:---|:----------|
-|`coord`|`ol.Coordinate`| Where to anchor the popup. |
-|`html`|`String`| String of HTML to display within the popup. |
+|`coord`|`ol.Coordinate`|  |
+|`content`|`string`|  |
 
 
 ##### `hide()`
 
 Hide the popup.
 
+##### `bringToFront()`
+
+Show on top of other popups.
+
 ## License
 
 MIT (c) Matt Walker.
-
-## Credit
-
-Based on an example by [Tim Schaub](https://github.com/tschaub) posted on the
-[OL3-Dev list](https://groups.google.com/forum/#!forum/ol3-dev).
 
 ## Also see
 

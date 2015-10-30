@@ -1,3 +1,19 @@
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['openlayers'], factory);
+    } else if (typeof exports === 'object') {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like enviroments that support module.exports,
+        // like Node.
+        
+        module.exports = factory(require('openlayers'));
+    } else {
+        // Browser globals (root is window)
+        root.ol.Overlay.Popup = factory(root.ol);
+    }
+}(this, function(ol) {
+
 /**
  * Extended OpenLayers 3 Popup Overlay.
  * See [the examples](./examples) for usage. Styling can be done via CSS.
@@ -240,3 +256,8 @@ ol.Overlay.Popup = (function(ol) {
 
     return Popup;
 }(ol));
+
+
+return ol.Overlay.Popup;
+
+}));
