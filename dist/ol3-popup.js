@@ -173,8 +173,8 @@ ol.Overlay.Popup = (function(ol) {
         if (this.panMapIfOutOfView) {
             this.panIntoView(coord);
         }
-        // currently ol3 doesn't exports dispatchEvent method
-        //this.dispatchEvent(PopupEventType.SHOW);
+
+        this.dispatchEvent(PopupEventType.SHOW);
         this.set("visibility", true);
         return this;
     };
@@ -238,7 +238,7 @@ ol.Overlay.Popup = (function(ol) {
     Popup.prototype.hide = function() {
         this.container.style.display = "none";
         this.closer.blur();
-        //this.dispatchEvent(PopupEventType.HIDE);
+        this.dispatchEvent(PopupEventType.HIDE);
         this.set("visibility", false);
         return this;
     };
