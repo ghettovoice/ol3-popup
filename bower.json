@@ -7,8 +7,8 @@
   ],
   "description": "Extended Popup overlay for OpenLayers 3",
   "main": [
-    "src/ol3-popup.js",
-    "src/ol3-popup.css"
+    "dist/ol3-popup.min.js",
+    "dist/ol3-popup.min.css"
   ],
   "keywords": [
     "openlayers",
