@@ -1,7 +1,7 @@
 {
-  "name": "ol3-popup",
+  "name": "ol3-popup-umd",
   "version": "1.1.0",
-  "description": "Extended Popup overlay for OpenLayers 3",
+  "description": "Extended Popup overlay for OpenLayers 3 with UMD wrapper",
   "main": "dist/ol3-popup.js",
   "repository": {
     "type": "git",
