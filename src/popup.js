@@ -52,6 +52,10 @@ const PopupEventType = {
  *
  * todo проверить autoPan
  * todo добавить анимацию показа/скрытия
+ * todo автодокументация
+ *      https://github.com/jsdoc2md/jsdoc-to-markdown
+ *      https://github.com/jsdoc2md/jsdoc-parse/
+ *      https://github.com/75lb/array-tools#api-reference
  */
 export default class Popup extends ol.Overlay {
     /**
