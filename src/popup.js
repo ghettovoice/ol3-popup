@@ -1,5 +1,6 @@
 import ol from "openlayers";
-import { createElement, isElement, isString } from "./util";
+import { coalesce, createElement, isElement, isString } from "./util";
+import * as easing from './easing';
 
 /**
  * @typedef {Object} PopupOptions
@@ -18,10 +19,11 @@ import { createElement, isElement, isString } from "./util";
  * @property {boolean | undefined} insertFirst Whether the overlay is inserted first in the overlay container, or appended.
  *                                             Default is true. If the overlay is placed in the same container as that of the controls
  *                                             (see the stopEvent option) you will probably set insertFirst to true so the overlay is displayed below the controls.
- * @property {boolean | undefined} autoPan If set to true the map is panned when calling setPosition, so that the overlay is entirely visible in the current viewport. The default is false.
+ * @property {boolean | undefined} autoPan If set to true the map is panned when calling setPosition, so that the overlay is entirely visible in the current viewport.
+ *                                         The default is true.
  * @property {olx.animation.PanOptions | undefined} autoPanAnimation The options used to create a ol.animation.pan animation.
  *                                                                   This animation is only used when autoPan is enabled.
- *                                                                   By default the default options for ol.animation.pan are used.
+ *                                                                   Default is `{ duration: 300, easing: easeInOutCubic }`.
  *                                                                   If set to null the panning is not animated.
  * @property {number | undefined} autoPanMargin The margin (in pixels) between the overlay and the borders of the map when autopanning. The default is 20.
  * @property {Element | string | undefined} content Popup initial content.
@@ -50,8 +52,8 @@ const PopupEventType = {
  * @class
  * @extends {ol.Overlay}
  *
- * todo проверить autoPan
  * todo добавить анимацию показа/скрытия
+ * todo сделать четкие стили
  * todo автодокументация
  *      https://github.com/jsdoc2md/jsdoc-to-markdown
  *      https://github.com/jsdoc2md/jsdoc-parse/
@@ -63,6 +65,12 @@ export default class Popup extends ol.Overlay {
      */
     constructor(options = {}) {
         const element = createDOMElement();
+
+        options.autoPan = coalesce(options.autoPan, true);
+        options.autoPanAnimation = coalesce(options.autoPanAnimation, {
+            duration: 300,
+            easing: easing.easeInOutCubic
+        });
 
         super({
             ...options,
@@ -82,7 +90,7 @@ export default class Popup extends ol.Overlay {
          * @type {Element}
          * @private
          */
-        this.closer_ = this.elem_.querySelector('ol-popup-closer');
+        this.closer_ = this.elem_.querySelector('.ol-popup-closer');
         /**
          * @type {Object<string, Object>}
          * @private
@@ -139,7 +147,7 @@ export default class Popup extends ol.Overlay {
      * @public
      */
     bringToFront() {
-        const container = this.container.parentNode;
+        const container = this.elem_.parentNode;
         const overlaysContainer = container.parentNode;
         const lastOverlay = Array.from(overlaysContainer.querySelectorAll(".ol-overlay-container")).pop();
 

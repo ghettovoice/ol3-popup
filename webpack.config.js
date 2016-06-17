@@ -35,12 +35,14 @@ const entry = path.join(srcDir, 'index.js');
 
 const banner =
 `${packageJson.description}
+Fork of Matt Walker ol3-popup https://github.com/walkermatt/ol3-popup
+
 @package ${packageJson.name}
 @author ${packageJson.author}
 @version ${packageJson.version}
 @licence MIT https://opensource.org/licenses/MIT
          Based on OpenLayers 3. Copyright 2005-2016 OpenLayers Contributors. All rights reserved. http://openlayers.org
-@copyright (c) 2016, ${packageJson.author}`;
+@copyright (c) 2016, Matt Walker, ${packageJson.author}`;
 
 const plugins = [
     new webpack.optimize.OccurenceOrderPlugin(),
