@@ -1,7 +1,0 @@
-@module Popup
-@export ol.Overlay.Popup
-@import openlayers as ol
-
-@include ../dist/ol3-popup.js
-
-return Popup;

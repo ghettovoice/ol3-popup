@@ -19,6 +19,68 @@ Based on an example by [Tim Schaub](https://github.com/tschaub) posted on the
 
 ## API
 
+### `new ol.Overlay.Popup(opt_options)`
+
+Extended OpenLayers 3 Popup Overlay.
+
+#### Parameters:
+
+|Name|Type|Description|
+|:---|:---|:----------|
+|`opt_options`|`Object`| Overlay options, extends olx.OverlayOptions adding: **`panMapIfOutOfView`** `Boolean` - Should the map be panned so that the popup is entirely within view. |
+
+#### Extends
+
+`ol.Overlay`
+
+#### Methods
+
+##### `setContent(content)`
+
+Sets popup inner content.
+
+###### Parameters:
+
+|Name|Type|Description|
+|:---|:---|:----------|
+|`content`|`string`|  |
+
+
+##### `setMap(map)`
+
+Set the map to be associated with this overlay.
+
+###### Parameters:
+
+|Name|Type|Description|
+|:---|:---|:----------|
+|`map`|`ol.Map`| The map that the overlay is part of. |
+
+
+##### `getContent()`
+
+Returns inner content.
+
+##### `show(coord,content)`
+
+Show the popup.
+
+###### Parameters:
+
+|Name|Type|Description|
+|:---|:---|:----------|
+|`coord`|`ol.Coordinate`|  |
+|`content`|`string`|  |
+
+
+##### `hide()`
+
+Hide the popup.
+
+##### `bringToFront()`
+
+Show on top of other popups.
+
 ## License
 
 MIT (c) Matt Walker.
