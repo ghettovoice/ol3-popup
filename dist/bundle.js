@@ -1,11 +1,13 @@
 /*!
  * Popup overlay for OpenLayers 3 with UMD wrapper
+ * Fork of Matt Walker ol3-popup https://github.com/walkermatt/ol3-popup
+ * 
  * @package ol3-popup-umd
  * @author Vladimir Vershinin (https://github.com/ghettovoice)
  * @version 1.2.0
  * @licence MIT https://opensource.org/licenses/MIT
  *          Based on OpenLayers 3. Copyright 2005-2016 OpenLayers Contributors. All rights reserved. http://openlayers.org
- * @copyright (c) 2016, Vladimir Vershinin (https://github.com/ghettovoice)
+ * @copyright (c) 2016, Matt Walker, Vladimir Vershinin (https://github.com/ghettovoice)
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -79,11 +81,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Popup overlay for OpenLayers 3 with UMD wrapper.
+	 * Fork of Matt Walker ol3-popup https://github.com/walkermatt/ol3-popup
 	 *
 	 * @author Vladimir Vershinin <ghettovoice@gmail.com>
 	 * @licence MIT https://opensource.org/licenses/MIT
 	 *          Based on OpenLayers 3. Copyright 2005-2016 OpenLayers Contributors. All rights reserved. http://openlayers.org
-	 * @copyright (c) 2016, Vladimir Vershinin
+	 * @copyright (c) 2016, Matt Walker, Vladimir Vershinin
 	 */
 	exports.default = _popup2.default;
 	module.exports = exports['default'];
@@ -190,6 +193,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	/*
+	 * todo добавить анимацию показа/скрытия
+	 * todo сделать четкие стили
+	 * todo автодокументация
+	 *      https://github.com/jsdoc2md/jsdoc-to-markdown
+	 *      https://github.com/jsdoc2md/jsdoc-parse/
+	 *      https://github.com/75lb/array-tools#api-reference
+	 */
+
 	/**
 	 * @typedef {Object} PopupOptions
 	 * @property {number | string | undefined} id Set the overlay id. The overlay id can be used with the ol.Map#getOverlayById method.
@@ -197,7 +209,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *                                         A positive value shifts the overlay right. The second element in the array is the vertical offset.
 	 *                                         A positive value shifts the overlay down. Default is [0, 0].
 	 * @property {ol.Coordinate | undefined} position The overlay position in map projection.
-	 * @property {	ol.OverlayPositioning | string | undefined} positioning Defines how the overlay is actually positioned with respect to its position property.
+	 * @property {ol.OverlayPositioning | string | undefined} positioning Defines how the overlay is actually positioned with respect to its position property.
 	 *                                                                      Possible values are 'bottom-left', 'bottom-center', 'bottom-right', 'center-left',
 	 *                                                                      'center-center', 'center-right', 'top-left', 'top-center', and 'top-right'.
 	 *                                                                      Default is 'top-left'.
@@ -238,13 +250,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Popup Overlay for OpenLayer 3.
 	 *
 	 * @class
-	 * @extends {ol.Overlay}
-	 *
-	 * todo добавить анимацию показа/скрытия
-	 * todo автодокументация
-	 *      https://github.com/jsdoc2md/jsdoc-to-markdown
-	 *      https://github.com/jsdoc2md/jsdoc-parse/
-	 *      https://github.com/75lb/array-tools#api-reference
+	 * @extends ol.Overlay
 	 */
 
 	var Popup = function (_ol$Overlay) {
@@ -276,17 +282,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            element: element
 	        })));
 
-	        _this.elem_ = element;
+	        _this.content_ = _this.getElement().querySelector('.ol-popup-content');
 	        /**
 	         * @type {Element}
 	         * @private
 	         */
-	        _this.content_ = _this.elem_.querySelector('.ol-popup-content');
-	        /**
-	         * @type {Element}
-	         * @private
-	         */
-	        _this.closer_ = _this.elem_.querySelector('.ol-popup-closer');
+	        _this.closer_ = _this.getElement().querySelector('.ol-popup-closer');
 	        /**
 	         * @type {Object<string, Object>}
 	         * @private
@@ -337,7 +338,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "bringToFront",
 	        value: function bringToFront() {
-	            var container = this.elem_.parentNode;
+	            var container = this.getElement().parentNode;
 	            var overlaysContainer = container.parentNode;
 	            var lastOverlay = Array.from(overlaysContainer.querySelectorAll(".ol-overlay-container")).pop();
 
@@ -352,6 +353,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * @param {ol.Coordinate} coordinate
 	         * @param {Element | string} [content] Replace content.
 	         * @public
+	         * @fires Popup#show
 	         */
 
 	    }, {
@@ -361,7 +363,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this.content = content;
 	            }
 
-	            this.elem_.style.display = "block";
+	            this.getElement().style.display = "block";
 	            this.setPosition(coordinate);
 
 	            this.dispatchEvent(PopupEventType.SHOW);
@@ -372,13 +374,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * Hides popup.
 	         *
 	         * @public
+	         * @fires Popup#hide
 	         */
 
 	    }, {
 	        key: "hide",
 	        value: function hide() {
 	            this.closer_.blur();
-	            this.elem_.style.display = "none";
+	            this.getElement().style.display = "none";
 
 	            this.dispatchEvent(PopupEventType.HIDE);
 	            this.set("visible", false);
@@ -393,14 +396,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function bindEvents_() {
 	            var _this2 = this;
 
-	            this.listentEvent_('closerclick', this.closer_, 'click', function (evt) {
+	            this.listenEvent_('closerclick', this.closer_, 'click', function (evt) {
 	                evt.preventDefault();
 	                _this2.hide();
 	            });
 
 	            var elemListener = this.bringToFront.bind(this);
 	            ["click", "focus"].forEach(function (eventName) {
-	                return _this2.listentEvent_('elem' + eventName, _this2.elem_, eventName, elemListener);
+	                return _this2.listenEvent_('elem' + eventName, _this2.getElement(), eventName, elemListener);
 	            });
 	        }
 
@@ -423,8 +426,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	         */
 
 	    }, {
-	        key: "listentEvent_",
-	        value: function listentEvent_(name, target, event, listener) {
+	        key: "listenEvent_",
+	        value: function listenEvent_(name, target, event, listener) {
 	            if (this.eventListeners_[name]) {
 	                this.unlistenEvent_(name);
 	            }

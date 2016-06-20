@@ -2,6 +2,15 @@ import ol from "openlayers";
 import { coalesce, createElement, isElement, isString } from "./util";
 import * as easing from './easing';
 
+/*
+ * todo добавить анимацию показа/скрытия
+ * todo сделать четкие стили
+ * todo автодокументация
+ *      https://github.com/jsdoc2md/jsdoc-to-markdown
+ *      https://github.com/jsdoc2md/jsdoc-parse/
+ *      https://github.com/75lb/array-tools#api-reference
+ */
+
 /**
  * @typedef {Object} PopupOptions
  * @property {number | string | undefined} id Set the overlay id. The overlay id can be used with the ol.Map#getOverlayById method.
@@ -9,7 +18,7 @@ import * as easing from './easing';
  *                                         A positive value shifts the overlay right. The second element in the array is the vertical offset.
  *                                         A positive value shifts the overlay down. Default is [0, 0].
  * @property {ol.Coordinate | undefined} position The overlay position in map projection.
- * @property {	ol.OverlayPositioning | string | undefined} positioning Defines how the overlay is actually positioned with respect to its position property.
+ * @property {ol.OverlayPositioning | string | undefined} positioning Defines how the overlay is actually positioned with respect to its position property.
  *                                                                      Possible values are 'bottom-left', 'bottom-center', 'bottom-right', 'center-left',
  *                                                                      'center-center', 'center-right', 'top-left', 'top-center', and 'top-right'.
  *                                                                      Default is 'top-left'.
@@ -50,14 +59,7 @@ const PopupEventType = {
  * Popup Overlay for OpenLayer 3.
  *
  * @class
- * @extends {ol.Overlay}
- *
- * todo добавить анимацию показа/скрытия
- * todo сделать четкие стили
- * todo автодокументация
- *      https://github.com/jsdoc2md/jsdoc-to-markdown
- *      https://github.com/jsdoc2md/jsdoc-parse/
- *      https://github.com/75lb/array-tools#api-reference
+ * @extends ol.Overlay
  */
 export default class Popup extends ol.Overlay {
     /**
@@ -80,17 +82,12 @@ export default class Popup extends ol.Overlay {
          * @type {Element}
          * @private
          */
-        this.elem_ = element;
+        this.content_ = this.getElement().querySelector('.ol-popup-content');
         /**
          * @type {Element}
          * @private
          */
-        this.content_ = this.elem_.querySelector('.ol-popup-content');
-        /**
-         * @type {Element}
-         * @private
-         */
-        this.closer_ = this.elem_.querySelector('.ol-popup-closer');
+        this.closer_ = this.getElement().querySelector('.ol-popup-closer');
         /**
          * @type {Object<string, Object>}
          * @private
@@ -147,7 +144,7 @@ export default class Popup extends ol.Overlay {
      * @public
      */
     bringToFront() {
-        const container = this.elem_.parentNode;
+        const container = this.getElement().parentNode;
         const overlaysContainer = container.parentNode;
         const lastOverlay = Array.from(overlaysContainer.querySelectorAll(".ol-overlay-container")).pop();
 
@@ -162,13 +159,14 @@ export default class Popup extends ol.Overlay {
      * @param {ol.Coordinate} coordinate
      * @param {Element | string} [content] Replace content.
      * @public
+     * @fires Popup#show
      */
     show(coordinate, content) {
         if (content) {
             this.content = content;
         }
 
-        this.elem_.style.display = "block";
+        this.getElement().style.display = "block";
         this.setPosition(coordinate);
 
         this.dispatchEvent(PopupEventType.SHOW);
@@ -179,10 +177,11 @@ export default class Popup extends ol.Overlay {
      * Hides popup.
      *
      * @public
+     * @fires Popup#hide
      */
     hide() {
         this.closer_.blur();
-        this.elem_.style.display = "none";
+        this.getElement().style.display = "none";
 
         this.dispatchEvent(PopupEventType.HIDE);
         this.set("visible", false);
@@ -192,13 +191,13 @@ export default class Popup extends ol.Overlay {
      * @private
      */
     bindEvents_() {
-        this.listentEvent_('closerclick', this.closer_, 'click', evt => {
+        this.listenEvent_('closerclick', this.closer_, 'click', evt => {
             evt.preventDefault();
             this.hide();
         });
 
         const elemListener = ::this.bringToFront;
-        ["click", "focus"].forEach(eventName => this.listentEvent_('elem' + eventName, this.elem_, eventName, elemListener));
+        ["click", "focus"].forEach(eventName => this.listenEvent_('elem' + eventName, this.getElement(), eventName, elemListener));
     }
 
     /**
@@ -215,7 +214,7 @@ export default class Popup extends ol.Overlay {
      * @param {function} listener
      * @private
      */
-    listentEvent_(name, target, event, listener) {
+    listenEvent_(name, target, event, listener) {
         if (this.eventListeners_[name]) {
             this.unlistenEvent_(name);
         }
