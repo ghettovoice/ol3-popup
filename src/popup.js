@@ -1,6 +1,6 @@
 import ol from "openlayers";
-import { coalesce, createElement, isElement, isString } from "./util";
-import * as easing from './easing';
+import { coalesce, createElement, emptyElement, isElement, isString } from "./util";
+import * as easing from "./easing";
 
 /*
  * todo добавить анимацию показа/скрытия
@@ -107,19 +107,22 @@ export default class Popup extends ol.Overlay {
      * @public
      */
     set content(content) {
+        emptyElement(this.content_);
+
         if (isElement(content)) {
             this.content_.appendChild(content);
         } else if (isString(content)) {
-            this.content_.innerHTML = content;
+            this.content_.insertAdjacentHTML('afterBegin', content);
         }
+        console.dir(this.content_);
     }
 
     /**
-     * @return {Element}
+     * @return {HTMLElement[]}
      * @public
      */
     get content() {
-        return this.content_;
+        return this.content_.children;
     }
 
     /**

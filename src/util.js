@@ -55,3 +55,12 @@ export function isObject(value) {
 export function isString(value) {
     return typeof value === 'string' || isObject(value) && Object.prototype.toString(value) === '[object String]';
 }
+
+/**
+ * @param {Element} elem
+ */
+export function emptyElement(elem) {
+    while (elem.hasChildNodes()) {
+        elem.removeChild(elem.lastChild);
+    }
+}

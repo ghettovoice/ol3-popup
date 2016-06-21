@@ -462,10 +462,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "content",
 	        set: function set(content) {
+	            (0, _util.emptyElement)(this.content_);
+
 	            if ((0, _util.isElement)(content)) {
 	                this.content_.appendChild(content);
 	            } else if ((0, _util.isString)(content)) {
-	                this.content_.innerHTML = content;
+	                this.content_.insertAdjacentHTML('afterBegin', content);
 	            }
 	        }
 
@@ -558,6 +560,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.isElement = isElement;
 	exports.isObject = isObject;
 	exports.isString = isString;
+	exports.emptyElement = emptyElement;
 	/**
 	 * @param {*} arg1 Value to check.
 	 * @param {*} arg2 Value to check.
@@ -622,6 +625,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function isString(value) {
 	    return typeof value === 'string' || isObject(value) && Object.prototype.toString(value) === '[object String]';
+	}
+
+	/**
+	 * @param {Element} elem
+	 */
+	function emptyElement(elem) {
+	    while (elem.hasChildNodes()) {
+	        elem.removeChild(elem.lastChild);
+	    }
 	}
 
 /***/ },
