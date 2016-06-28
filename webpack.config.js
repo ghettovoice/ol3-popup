@@ -30,7 +30,7 @@ const nodeModulesDir = path.join(__dirname, 'node_modules');
 const srcDir = path.join(__dirname, 'src');
 const outDir = path.join(__dirname, 'dist');
 const bundleName = RELEASE ? 'bundle.min' : 'bundle';
-const exportName = ['ol', 'Popup'];
+const exportName = ['ol', 'PopupOverlay'];
 const entry = path.join(srcDir, 'index.js');
 
 const banner =
@@ -39,10 +39,11 @@ Fork of Matt Walker ol3-popup https://github.com/walkermatt/ol3-popup
 
 @package ${packageJson.name}
 @author ${packageJson.author}
+${packageJson.contributors.map(author => '@author' + author)}
 @version ${packageJson.version}
 @licence MIT https://opensource.org/licenses/MIT
          Based on OpenLayers 3. Copyright 2005-2016 OpenLayers Contributors. All rights reserved. http://openlayers.org
-@copyright (c) 2016, Matt Walker, ${packageJson.author}`;
+@copyright (c) 2016 Matt Walker, ${packageJson.author}`;
 
 const plugins = [
     new webpack.optimize.OccurenceOrderPlugin(),
@@ -117,9 +118,16 @@ module.exports = {
     profile: PROFILE,
     debug: DEBUG,
     entry: entry,
-    externals: {
-        openlayers: 'ol'
-    },
+    externals: [
+        {
+            openlayers: {
+                root: 'ol',
+                amd: 'openlayers',
+                commonjs: 'openlayers',
+                commonjs2: 'openlayers'
+            }
+        }
+    ],
     output: {
         path: outDir,
         filename: `${bundleName}.js`,

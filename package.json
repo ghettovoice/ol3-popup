@@ -7,6 +7,7 @@
     "release": "webpack --release --verbose",
     "build": "webpack --build --verbose",
     "serv": "webpack-dev-server",
+    "docs": "jsdoc2md -t util/README.hbs src/popup.js > README.md",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -14,6 +15,10 @@
     "url": "https://github.com/ghettovoice/ol3-popup-umd.git"
   },
   "author": "Vladimir Vershinin (https://github.com/ghettovoice)",
+  "contributors": [
+    "Matt Walker (http://longwayaround.org.uk)",
+    "Avi Kelman <patcherton.fixesthings@gmail.com>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ghettovoice/ol3-popup-umd/issues"
@@ -35,7 +40,6 @@
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "glob": "^7.0.3",
-    "gsap": "^1.18.5",
     "lodash": "^4.13.1",
     "node-sass": "^3.7.0",
     "openlayers": "^3.16.0",

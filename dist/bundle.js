@@ -4,20 +4,21 @@
  * 
  * @package ol3-popup-umd
  * @author Vladimir Vershinin (https://github.com/ghettovoice)
+ * @authorMatt Walker (http://longwayaround.org.uk),@authorAvi Kelman <patcherton.fixesthings@gmail.com>
  * @version 1.2.0
  * @licence MIT https://opensource.org/licenses/MIT
  *          Based on OpenLayers 3. Copyright 2005-2016 OpenLayers Contributors. All rights reserved. http://openlayers.org
- * @copyright (c) 2016, Matt Walker, Vladimir Vershinin (https://github.com/ghettovoice)
+ * @copyright (c) 2016 Matt Walker, Vladimir Vershinin (https://github.com/ghettovoice)
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("ol"));
+		module.exports = factory(require("openlayers"));
 	else if(typeof define === 'function' && define.amd)
-		define(["ol"], factory);
+		define(["openlayers"], factory);
 	else if(typeof exports === 'object')
-		exports["Popup"] = factory(require("ol"));
+		exports["PopupOverlay"] = factory(require("openlayers"));
 	else
-		root["ol"] = root["ol"] || {}, root["ol"]["Popup"] = factory(root["ol"]);
+		root["ol"] = root["ol"] || {}, root["ol"]["PopupOverlay"] = factory(root["ol"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_5__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -84,9 +85,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Fork of Matt Walker ol3-popup https://github.com/walkermatt/ol3-popup
 	 *
 	 * @author Vladimir Vershinin <ghettovoice@gmail.com>
+	 * @author Matt Walker (http://longwayaround.org.uk)
+	 * @author Avi Kelman <patcherton.fixesthings@gmail.com>
 	 * @licence MIT https://opensource.org/licenses/MIT
 	 *          Based on OpenLayers 3. Copyright 2005-2016 OpenLayers Contributors. All rights reserved. http://openlayers.org
-	 * @copyright (c) 2016, Matt Walker, Vladimir Vershinin
+	 * @copyright (c) 2016 Matt Walker, Vladimir Vershinin
 	 */
 	exports.default = _popup2.default;
 	module.exports = exports['default'];
@@ -194,8 +197,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	/*
-	 * todo добавить анимацию показа/скрытия
-	 * todo сделать четкие стили
 	 * todo автодокументация
 	 *      https://github.com/jsdoc2md/jsdoc-to-markdown
 	 *      https://github.com/jsdoc2md/jsdoc-parse/
@@ -227,6 +228,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *                                                                   If set to null the panning is not animated.
 	 * @property {number | undefined} autoPanMargin The margin (in pixels) between the overlay and the borders of the map when autopanning. The default is 20.
 	 * @property {Element | string | undefined} content Popup initial content.
+	 * @property {function | undefined} beforeShow Function that called before popup show. Can be used for show animation.
+	 * @property {function | undefined} beforeHide Function that called before popup hide. Can be used for hide animation.
 	 */
 	var PopupOptions;
 
@@ -274,7 +277,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 
 	        /**
-	         * @type {Element}
+	         * @type {function}
 	         * @private
 	         */
 
@@ -282,6 +285,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	            element: element
 	        })));
 
+	        _this.beforeShow_ = (0, _util.coalesce)(options.beforeShow, _util.noop);
+	        /**
+	         * @type {function}
+	         * @private
+	         */
+	        _this.beforeHide_ = (0, _util.coalesce)(options.beforeHide, _util.noop);
+	        /**
+	         * @type {Element}
+	         * @private
+	         */
 	        _this.content_ = _this.getElement().querySelector('.ol-popup-content');
 	        /**
 	         * @type {Element}
@@ -352,6 +365,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         *
 	         * @param {ol.Coordinate} coordinate
 	         * @param {Element | string} [content] Replace content.
+	         * @return {Promise}
 	         * @public
 	         * @fires Popup#show
 	         */
@@ -359,20 +373,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "show",
 	        value: function show(coordinate, content) {
+	            var _this2 = this;
+
 	            if (content) {
 	                this.content = content;
 	            }
 
-	            this.getElement().style.display = "block";
 	            this.setPosition(coordinate);
 
-	            this.dispatchEvent(PopupEventType.SHOW);
-	            this.set("visible", true);
+	            return Promise.resolve(this.beforeShow_(this)).then(function () {
+	                _this2.getElement().style.display = "block";
+
+	                _this2.dispatchEvent('change:position');
+	                _this2.dispatchEvent(PopupEventType.SHOW);
+	                _this2.set("visible", true);
+	            });
 	        }
 
 	        /**
 	         * Hides popup.
 	         *
+	         * @return {Promise}
 	         * @public
 	         * @fires Popup#hide
 	         */
@@ -380,11 +401,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "hide",
 	        value: function hide() {
-	            this.closer_.blur();
-	            this.getElement().style.display = "none";
+	            var _this3 = this;
 
-	            this.dispatchEvent(PopupEventType.HIDE);
-	            this.set("visible", false);
+	            this.closer_.blur();
+
+	            return Promise.resolve(this.beforeHide_(this)).then(function () {
+	                _this3.getElement().style.display = "none";
+
+	                _this3.dispatchEvent(PopupEventType.HIDE);
+	                _this3.set("visible", false);
+	            });
 	        }
 
 	        /**
@@ -394,16 +420,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "bindEvents_",
 	        value: function bindEvents_() {
-	            var _this2 = this;
+	            var _this4 = this;
 
 	            this.listenEvent_('closerclick', this.closer_, 'click', function (evt) {
 	                evt.preventDefault();
-	                _this2.hide();
+	                _this4.hide();
 	            });
 
 	            var elemListener = this.bringToFront.bind(this);
 	            ["click", "focus"].forEach(function (eventName) {
-	                return _this2.listenEvent_('elem' + eventName, _this2.getElement(), eventName, elemListener);
+	                return _this4.listenEvent_('elem' + eventName, _this4.getElement(), eventName, elemListener);
 	            });
 	        }
 
@@ -472,12 +498,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        /**
-	         * @return {Element}
+	         * @return {HTMLElement[]}
 	         * @public
 	         */
 	        ,
 	        get: function get() {
-	            return this.content_;
+	            return this.content_.children;
 	        }
 	    }]);
 
@@ -561,6 +587,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.isObject = isObject;
 	exports.isString = isString;
 	exports.emptyElement = emptyElement;
+	exports.noop = noop;
 	/**
 	 * @param {*} arg1 Value to check.
 	 * @param {*} arg2 Value to check.
@@ -635,6 +662,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        elem.removeChild(elem.lastChild);
 	    }
 	}
+
+	/**
+	 * Empty function
+	 *
+	 * @return void
+	 */
+	function noop() {}
 
 /***/ },
 /* 4 */

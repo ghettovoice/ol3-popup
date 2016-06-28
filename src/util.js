@@ -64,3 +64,10 @@ export function emptyElement(elem) {
         elem.removeChild(elem.lastChild);
     }
 }
+
+/**
+ * Empty function
+ *
+ * @return void
+ */
+export function noop() { }

@@ -1,10 +1,8 @@
 import ol from "openlayers";
-import { coalesce, createElement, emptyElement, isElement, isString } from "./util";
+import { coalesce, createElement, emptyElement, isElement, isString, noop } from "./util";
 import * as easing from "./easing";
 
 /*
- * todo добавить анимацию показа/скрытия
- * todo сделать четкие стили
  * todo автодокументация
  *      https://github.com/jsdoc2md/jsdoc-to-markdown
  *      https://github.com/jsdoc2md/jsdoc-parse/
@@ -36,6 +34,8 @@ import * as easing from "./easing";
  *                                                                   If set to null the panning is not animated.
  * @property {number | undefined} autoPanMargin The margin (in pixels) between the overlay and the borders of the map when autopanning. The default is 20.
  * @property {Element | string | undefined} content Popup initial content.
+ * @property {function | undefined} beforeShow Function that called before popup show. Can be used for show animation.
+ * @property {function | undefined} beforeHide Function that called before popup hide. Can be used for hide animation.
  */
 var PopupOptions;
 
@@ -78,6 +78,17 @@ export default class Popup extends ol.Overlay {
             ...options,
             element
         });
+
+        /**
+         * @type {function}
+         * @private
+         */
+        this.beforeShow_ = coalesce(options.beforeShow, noop);
+        /**
+         * @type {function}
+         * @private
+         */
+        this.beforeHide_ = coalesce(options.beforeHide, noop);
         /**
          * @type {Element}
          * @private
@@ -114,7 +125,6 @@ export default class Popup extends ol.Overlay {
         } else if (isString(content)) {
             this.content_.insertAdjacentHTML('afterBegin', content);
         }
-        console.dir(this.content_);
     }
 
     /**
@@ -161,6 +171,7 @@ export default class Popup extends ol.Overlay {
      *
      * @param {ol.Coordinate} coordinate
      * @param {Element | string} [content] Replace content.
+     * @return {Promise}
      * @public
      * @fires Popup#show
      */
@@ -169,25 +180,35 @@ export default class Popup extends ol.Overlay {
             this.content = content;
         }
 
-        this.getElement().style.display = "block";
         this.setPosition(coordinate);
 
-        this.dispatchEvent(PopupEventType.SHOW);
-        this.set("visible", true);
+        return Promise.resolve(this.beforeShow_(this))
+            .then(() => {
+                this.getElement().style.display = "block";
+
+                this.dispatchEvent('change:position');
+                this.dispatchEvent(PopupEventType.SHOW);
+                this.set("visible", true);
+            });
     }
 
     /**
      * Hides popup.
      *
+     * @return {Promise}
      * @public
      * @fires Popup#hide
      */
     hide() {
         this.closer_.blur();
-        this.getElement().style.display = "none";
 
-        this.dispatchEvent(PopupEventType.HIDE);
-        this.set("visible", false);
+        return Promise.resolve(this.beforeHide_(this))
+            .then(() => {
+                this.getElement().style.display = "none";
+
+                this.dispatchEvent(PopupEventType.HIDE);
+                this.set("visible", false);
+            });
     }
 
     /**
