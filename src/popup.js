@@ -2,13 +2,6 @@ import ol from "openlayers";
 import { coalesce, createElement, emptyElement, isElement, isString, noop } from "./util";
 import * as easing from "./easing";
 
-/*
- * todo автодокументация
- *      https://github.com/jsdoc2md/jsdoc-to-markdown
- *      https://github.com/jsdoc2md/jsdoc-parse/
- *      https://github.com/75lb/array-tools#api-reference
- */
-
 /**
  * @typedef {Object} PopupOptions
  * @property {number | string | undefined} id Set the overlay id. The overlay id can be used with the ol.Map#getOverlayById method.
@@ -59,7 +52,7 @@ const PopupEventType = {
  * Popup Overlay for OpenLayer 3.
  *
  * @class
- * @extends ol.Overlay
+ * @extends {ol.Overlay}
  */
 export default class Popup extends ol.Overlay {
     /**
