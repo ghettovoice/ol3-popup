@@ -70,7 +70,7 @@ Click on the map to display a popup, click close to the edge of the map to see i
 #### Methods
 <% doc.methods.forEach(function(method) { %>
 
-**<%= method.name %>**(<%= method.params.map(function(param) { return param.name + ' : *' + param.types.join(' | ') + '*'; }) %>) <% if (method.return) { %>: *<%= method.return.types.join('|') %>* <% } %>
+**<%= doc.name + '::' + method.name %>**(<%= method.params.map(function(param) { return param.name + ' : *' + param.types.join(' | ') + '*'; }) %>) <% if (method.return) { %>: *<%= method.return.types.join('|') %>* <% } %>
 <%= method.description %>
 
 <% if (method.params && method.params.length) { %>

@@ -81,7 +81,7 @@ get content : *HTMLCollection*
 #### Methods
 
 
-**setContent**(content : *Element  |  HTMLCollection  |  string*) 
+**Popup::setContent**(content : *Element  |  HTMLCollection  |  string*) 
 
 
 
@@ -97,7 +97,7 @@ get content : *HTMLCollection*
 --------- 
 
 
-**getContent**() : *HTMLCollection* 
+**Popup::getContent**() : *HTMLCollection* 
 
 
 
@@ -109,7 +109,7 @@ HTMLCollection - Inner content of popup.
 --------- 
 
 
-**setMap**(map : *ol.Map*) 
+**Popup::setMap**(map : *ol.Map*) 
 
 
 
@@ -125,7 +125,7 @@ HTMLCollection - Inner content of popup.
 --------- 
 
 
-**bringToFront**() 
+**Popup::bringToFront**() 
 Show on top of other popups.
 
 
@@ -134,7 +134,7 @@ Show on top of other popups.
 --------- 
 
 
-**show**(coordinate : *ol.Coordinate*,content : *Element  |  HTMLCollection  |  string*) : *Promise* 
+**Popup::show**(coordinate : *ol.Coordinate*,content : *Element  |  HTMLCollection  |  string*) : *Promise* 
 Shows popup.
 
 
@@ -155,7 +155,7 @@ Promise - Returns Promise that resolves when showing completes.
 --------- 
 
 
-**hide**() : *Promise* 
+**Popup::hide**() : *Promise* 
 Hides popup.
 
 
