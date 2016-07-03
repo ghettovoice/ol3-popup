@@ -7,7 +7,7 @@
     "release": "webpack --release --verbose",
     "build": "webpack --build --verbose",
     "serv": "webpack-dev-server",
-    "docs": "jsdoc2md -t util/README.hbs src/popup.js > README.md",
+    "docs": "node util/docgen.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -38,7 +38,8 @@
     "babel-preset-stage-0": "^6.5.0",
     "chalk": "^1.1.3",
     "css-loader": "^0.23.1",
-    "documentation": "^4.0.0-beta5",
+    "esdoc": "^0.4.7",
+    "esdoc-es7-plugin": "0.0.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "glob": "^7.0.3",
     "lodash": "^4.13.1",
@@ -51,6 +52,7 @@
     "resolve-url-loader": "^1.4.3",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
+    "taffydb": "^2.7.2",
     "velocity-animate": "^1.2.3",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"

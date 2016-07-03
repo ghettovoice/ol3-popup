@@ -1,5 +1,5 @@
 import ol from "openlayers";
-import { coalesce, createElement, emptyElement, isElement, isString, noop } from "./util";
+import { coalesce, createElement, emptyElement, isElement, isString, isArrayLike, noop } from "./util";
 import * as easing from "./easing";
 
 /**
@@ -26,7 +26,7 @@ import * as easing from "./easing";
  *                                                                   Default is `{ duration: 300, easing: easeInOutCubic }`.
  *                                                                   If set to null the panning is not animated.
  * @property {number | undefined} autoPanMargin The margin (in pixels) between the overlay and the borders of the map when autopanning. The default is 20.
- * @property {Element | string | undefined} content Popup initial content.
+ * @property {Element | HTMLCollection | string | undefined} content Popup initial content.
  * @property {function | undefined} beforeShow Function that called before popup show. Can be used for show animation.
  * @property {function | undefined} beforeHide Function that called before popup hide. Can be used for hide animation.
  */
@@ -34,6 +34,7 @@ var PopupOptions;
 
 /**
  * @enum {string}
+ * @private
  */
 const PopupEventType = {
     /**
@@ -50,9 +51,6 @@ const PopupEventType = {
 
 /**
  * Popup Overlay for OpenLayer 3.
- *
- * @class
- * @extends {ol.Overlay}
  */
 export default class Popup extends ol.Overlay {
     /**
@@ -107,30 +105,43 @@ export default class Popup extends ol.Overlay {
 
     //noinspection JSAnnotator
     /**
-     * @param {Element | string} content
-     * @public
+     * @type {HTMLCollection} Inner content of popup.
      */
     set content(content) {
+        this.setContent(content);
+    }
+
+    /**
+     * @type {HTMLCollection} Inner content of popup.
+     */
+    get content() {
+        return this.getContent();
+    }
+
+    /**
+     * @param {Element | HTMLCollection | string} content Update popup inner content.
+     */
+    setContent(content) {
         emptyElement(this.content_);
 
         if (isElement(content)) {
             this.content_.appendChild(content);
         } else if (isString(content)) {
             this.content_.insertAdjacentHTML('afterBegin', content);
+        } else if (isArrayLike(content)) {
+            [].slice.call(content).forEach(elem => this.content_.appendChild(elem));
         }
     }
 
     /**
-     * @return {HTMLElement[]}
-     * @public
+     * @returns {HTMLCollection} Inner content of popup.
      */
-    get content() {
+    getContent() {
         return this.content_.children;
     }
 
     /**
-     * @param {ol.Map} map
-     * @public
+     * @param {ol.Map} map OpenLayers map object.
      */
     setMap(map) {
         super.setMap(map);
@@ -145,9 +156,6 @@ export default class Popup extends ol.Overlay {
 
     /**
      * Show on top of other popups.
-     *
-     * @returns {Popup}
-     * @public
      */
     bringToFront() {
         const container = this.getElement().parentNode;
@@ -163,9 +171,8 @@ export default class Popup extends ol.Overlay {
      * Shows popup.
      *
      * @param {ol.Coordinate} coordinate
-     * @param {Element | string} [content] Replace content.
-     * @return {Promise}
-     * @public
+     * @param {Element | HTMLCollection | string} [content] Replace inner content.
+     * @return {Promise} Returns Promise that resolves when showing completes.
      * @fires Popup#show
      */
     show(coordinate, content) {
@@ -180,6 +187,9 @@ export default class Popup extends ol.Overlay {
                 this.getElement().style.display = "block";
 
                 this.dispatchEvent('change:position');
+                /**
+                 * @event Popup#show
+                 */
                 this.dispatchEvent(PopupEventType.SHOW);
                 this.set("visible", true);
             });
@@ -188,8 +198,7 @@ export default class Popup extends ol.Overlay {
     /**
      * Hides popup.
      *
-     * @return {Promise}
-     * @public
+     * @return {Promise} Returns Promise that resolves when hiding completes.
      * @fires Popup#hide
      */
     hide() {
@@ -198,7 +207,9 @@ export default class Popup extends ol.Overlay {
         return Promise.resolve(this.beforeHide_(this))
             .then(() => {
                 this.getElement().style.display = "none";
-
+                /**
+                 * @event Popup#hide
+                 */
                 this.dispatchEvent(PopupEventType.HIDE);
                 this.set("visible", false);
             });

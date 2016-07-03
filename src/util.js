@@ -33,6 +33,7 @@ export function createElement(tagName, classes, attributes) {
  *
  * @param {*} value
  * @return {boolean}
+ * @link https://github.com/lodash/lodash/blob/4.13.1/lodash.js#L10755
  */
 export function isElement(value) {
     return !!value && isObject(value) && value.nodeType === 1;
@@ -41,6 +42,7 @@ export function isElement(value) {
 /**
  * @param {*} value
  * @return {boolean}
+ * @link https://github.com/lodash/lodash/blob/4.13.1/lodash.js#L11055
  */
 export function isObject(value) {
     return !!value && typeof value === 'object';
@@ -51,9 +53,24 @@ export function isObject(value) {
  *
  * @param {*} value
  * @return {boolean}
+ * @link https://github.com/lodash/lodash/blob/4.13.1/lodash.js#L11457
  */
 export function isString(value) {
-    return typeof value === 'string' || isObject(value) && Object.prototype.toString(value) === '[object String]';
+    return value != null && (
+        typeof value === 'string' ||
+        isObject(value) && Object.prototype.toString(value) === '[object String]'
+    );
+}
+
+/**
+ * Checks if `value` is Array like object.
+ *
+ * @param value
+ * @returns {boolean}
+ * @link https://github.com/lodash/lodash/blob/4.13.1/lodash.js#L10638
+ */
+export function isArrayLike(value) {
+    return !!value && typeof value.length === 'number';
 }
 
 /**

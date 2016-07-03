@@ -196,13 +196,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	/*
-	 * todo автодокументация
-	 *      https://github.com/jsdoc2md/jsdoc-to-markdown
-	 *      https://github.com/jsdoc2md/jsdoc-parse/
-	 *      https://github.com/75lb/array-tools#api-reference
-	 */
-
 	/**
 	 * @typedef {Object} PopupOptions
 	 * @property {number | string | undefined} id Set the overlay id. The overlay id can be used with the ol.Map#getOverlayById method.
@@ -227,7 +220,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *                                                                   Default is `{ duration: 300, easing: easeInOutCubic }`.
 	 *                                                                   If set to null the panning is not animated.
 	 * @property {number | undefined} autoPanMargin The margin (in pixels) between the overlay and the borders of the map when autopanning. The default is 20.
-	 * @property {Element | string | undefined} content Popup initial content.
+	 * @property {Element | HTMLCollection | string | undefined} content Popup initial content.
 	 * @property {function | undefined} beforeShow Function that called before popup show. Can be used for show animation.
 	 * @property {function | undefined} beforeHide Function that called before popup hide. Can be used for hide animation.
 	 */
@@ -235,6 +228,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * @enum {string}
+	 * @private
 	 */
 	var PopupEventType = {
 	    /**
@@ -251,9 +245,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Popup Overlay for OpenLayer 3.
-	 *
-	 * @class
-	 * @extends ol.Overlay
 	 */
 
 	var Popup = function (_ol$Overlay) {
@@ -317,19 +308,49 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    //noinspection JSAnnotator
 	    /**
-	     * @param {Element | string} content
-	     * @public
+	     * @type {HTMLCollection} Inner content of popup.
 	     */
 
 
 	    _createClass(Popup, [{
-	        key: "setMap",
+	        key: "setContent",
 
 
 	        /**
-	         * @param {ol.Map} map
-	         * @public
+	         * @param {Element | HTMLCollection | string} content Update popup inner content.
 	         */
+	        value: function setContent(content) {
+	            var _this2 = this;
+
+	            (0, _util.emptyElement)(this.content_);
+
+	            if ((0, _util.isElement)(content)) {
+	                this.content_.appendChild(content);
+	            } else if ((0, _util.isString)(content)) {
+	                this.content_.insertAdjacentHTML('afterBegin', content);
+	            } else if ((0, _util.isArrayLike)(content)) {
+	                [].slice.call(content).forEach(function (elem) {
+	                    return _this2.content_.appendChild(elem);
+	                });
+	            }
+	        }
+
+	        /**
+	         * @returns {HTMLCollection} Inner content of popup.
+	         */
+
+	    }, {
+	        key: "getContent",
+	        value: function getContent() {
+	            return this.content_.children;
+	        }
+
+	        /**
+	         * @param {ol.Map} map OpenLayers map object.
+	         */
+
+	    }, {
+	        key: "setMap",
 	        value: function setMap(map) {
 	            _get(Object.getPrototypeOf(Popup.prototype), "setMap", this).call(this, map);
 
@@ -343,9 +364,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        /**
 	         * Show on top of other popups.
-	         *
-	         * @returns {Popup}
-	         * @public
 	         */
 
 	    }, {
@@ -364,16 +382,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * Shows popup.
 	         *
 	         * @param {ol.Coordinate} coordinate
-	         * @param {Element | string} [content] Replace content.
-	         * @return {Promise}
-	         * @public
+	         * @param {Element | HTMLCollection | string} [content] Replace inner content.
+	         * @return {Promise} Returns Promise that resolves when showing completes.
 	         * @fires Popup#show
 	         */
 
 	    }, {
 	        key: "show",
 	        value: function show(coordinate, content) {
-	            var _this2 = this;
+	            var _this3 = this;
 
 	            if (content) {
 	                this.content = content;
@@ -382,34 +399,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.setPosition(coordinate);
 
 	            return Promise.resolve(this.beforeShow_(this)).then(function () {
-	                _this2.getElement().style.display = "block";
+	                _this3.getElement().style.display = "block";
 
-	                _this2.dispatchEvent('change:position');
-	                _this2.dispatchEvent(PopupEventType.SHOW);
-	                _this2.set("visible", true);
+	                _this3.dispatchEvent('change:position');
+	                /**
+	                 * @event Popup#show
+	                 */
+	                _this3.dispatchEvent(PopupEventType.SHOW);
+	                _this3.set("visible", true);
 	            });
 	        }
 
 	        /**
 	         * Hides popup.
 	         *
-	         * @return {Promise}
-	         * @public
+	         * @return {Promise} Returns Promise that resolves when hiding completes.
 	         * @fires Popup#hide
 	         */
 
 	    }, {
 	        key: "hide",
 	        value: function hide() {
-	            var _this3 = this;
+	            var _this4 = this;
 
 	            this.closer_.blur();
 
 	            return Promise.resolve(this.beforeHide_(this)).then(function () {
-	                _this3.getElement().style.display = "none";
-
-	                _this3.dispatchEvent(PopupEventType.HIDE);
-	                _this3.set("visible", false);
+	                _this4.getElement().style.display = "none";
+	                /**
+	                 * @event Popup#hide
+	                 */
+	                _this4.dispatchEvent(PopupEventType.HIDE);
+	                _this4.set("visible", false);
 	            });
 	        }
 
@@ -420,16 +441,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "bindEvents_",
 	        value: function bindEvents_() {
-	            var _this4 = this;
+	            var _this5 = this;
 
 	            this.listenEvent_('closerclick', this.closer_, 'click', function (evt) {
 	                evt.preventDefault();
-	                _this4.hide();
+	                _this5.hide();
 	            });
 
 	            var elemListener = this.bringToFront.bind(this);
 	            ["click", "focus"].forEach(function (eventName) {
-	                return _this4.listenEvent_('elem' + eventName, _this4.getElement(), eventName, elemListener);
+	                return _this5.listenEvent_('elem' + eventName, _this5.getElement(), eventName, elemListener);
 	            });
 	        }
 
@@ -488,22 +509,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "content",
 	        set: function set(content) {
-	            (0, _util.emptyElement)(this.content_);
-
-	            if ((0, _util.isElement)(content)) {
-	                this.content_.appendChild(content);
-	            } else if ((0, _util.isString)(content)) {
-	                this.content_.insertAdjacentHTML('afterBegin', content);
-	            }
+	            this.setContent(content);
 	        }
 
 	        /**
-	         * @return {HTMLElement[]}
-	         * @public
+	         * @type {HTMLCollection} Inner content of popup.
 	         */
 	        ,
 	        get: function get() {
-	            return this.content_.children;
+	            return this.getContent();
 	        }
 	    }]);
 
@@ -586,6 +600,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.isElement = isElement;
 	exports.isObject = isObject;
 	exports.isString = isString;
+	exports.isArrayLike = isArrayLike;
 	exports.emptyElement = emptyElement;
 	exports.noop = noop;
 	/**
@@ -631,6 +646,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @param {*} value
 	 * @return {boolean}
+	 * @link https://github.com/lodash/lodash/blob/4.13.1/lodash.js#L10755
 	 */
 	function isElement(value) {
 	    return !!value && isObject(value) && value.nodeType === 1;
@@ -639,6 +655,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * @param {*} value
 	 * @return {boolean}
+	 * @link https://github.com/lodash/lodash/blob/4.13.1/lodash.js#L11055
 	 */
 	function isObject(value) {
 	    return !!value && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
@@ -649,9 +666,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @param {*} value
 	 * @return {boolean}
+	 * @link https://github.com/lodash/lodash/blob/4.13.1/lodash.js#L11457
 	 */
 	function isString(value) {
-	    return typeof value === 'string' || isObject(value) && Object.prototype.toString(value) === '[object String]';
+	    return value != null && (typeof value === 'string' || isObject(value) && Object.prototype.toString(value) === '[object String]');
+	}
+
+	/**
+	 * Checks if `value` is Array like object.
+	 *
+	 * @param value
+	 * @returns {boolean}
+	 * @link https://github.com/lodash/lodash/blob/4.13.1/lodash.js#L10638
+	 */
+	function isArrayLike(value) {
+	    return !!value && typeof value.length === 'number';
 	}
 
 	/**
