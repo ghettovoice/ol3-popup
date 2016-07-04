@@ -10,16 +10,16 @@ import * as easing from "./easing";
  *                                         A positive value shifts the overlay down. Default is `[0, 0]`.
  * @property {ol.Coordinate | undefined} position The overlay position in map projection.
  * @property {ol.OverlayPositioning | string | undefined} positioning Defines how the overlay is actually positioned with respect to its position property.
- *                                                                      Possible values are `'bottom-left', 'bottom-center', 'bottom-right', 'center-left',
- *                                                                      'center-center', 'center-right', 'top-left', 'top-center', and 'top-right'.
- *                                                                      Default is 'top-left'`.
+ *                                                                      Possible values are `bottom-left`, `bottom-center`, `bottom-right`, `center-left`,
+ *                                                                      `center-center`, `center-right`, `top-left`, `top-center`, and `top-right`.
+ *                                                                      Default is `top-left`.
  * @property {boolean | undefined} stopEvent Whether event propagation to the map viewport should be stopped. Default is `true`.
  *                                           If true the overlay is placed in the same container as that of the controls (CSS class name `ol-overlaycontainer-stopevent`);
  *                                           if false it is placed in the container with CSS class name `ol-overlaycontainer`.
  * @property {boolean | undefined} insertFirst Whether the overlay is inserted first in the overlay container, or appended.
  *                                             Default is `true`. If the overlay is placed in the same container as that of the controls
- *                                             (see the stopEvent option) you will probably set `insertFirst` to true so the overlay is displayed below the controls.
- * @property {boolean | undefined} autoPan If set to true the map is panned when calling setPosition, so that the overlay is entirely visible in the current viewport.
+ *                                             (see the `stopEvent` option) you will probably set `insertFirst` to true so the overlay is displayed below the controls.
+ * @property {boolean | undefined} autoPan If set to `true` the map is panned when calling `setPosition`, so that the overlay is entirely visible in the current viewport.
  *                                         The default is `true`.
  * @property {olx.animation.PanOptions | undefined} autoPanAnimation The options used to create a `ol.animation.pan` animation.
  *                                                                   This animation is only used when `autoPan` is enabled.
