@@ -38,14 +38,23 @@ ESDoc.generate(config, function (results) {
 
     // classes
     values.classes = data({ kind: ['class'] }).map(doc => {
-        doc.constructor = data({ kind: ['constructor'], memberof: doc.longname }).map(doc => doc)[0];
-        doc.members = data({ kind: ['member', 'set', 'get'], memberof: doc.longname }).map(doc => doc);
-        doc.methods = data({ kind: ['method'], memberof: doc.longname }).map(doc => doc);
+        doc.constructor = data({ kind: ['constructor'], memberof: doc.longname }).get()[0];
+        doc.members = data({ kind: ['member', 'set', 'get'], memberof: doc.longname }).get();
+        doc.methods = data({ kind: ['method'], memberof: doc.longname }).map(method => {
+            if (method.unknown) {
+                method.fires = _(method.unknown)
+                    .filter({ tagName: '@fires' })
+                    .map('tagValue')
+                    .value();
+            }
+
+            return method;
+        });
 
         return doc;
     });
 
-//    console.log(util.inspect(values.classes, { depth: null }));
+//    console.log(util.inspect(values.classes, { depth: null }));process.exit(0);
     try {
         fs.readFile(source, (err, template) => {
             if (err) {

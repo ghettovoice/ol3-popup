@@ -198,28 +198,28 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * @typedef {Object} PopupOptions
-	 * @property {number | string | undefined} id Set the overlay id. The overlay id can be used with the ol.Map#getOverlayById method.
+	 * @property {number | string | undefined} id Set the overlay id. The overlay id can be used with the `ol.Map#getOverlayById` method.
 	 * @property {number[] | undefined} offset Offsets in pixels used when positioning the overlay. The first element in the array is the horizontal offset.
 	 *                                         A positive value shifts the overlay right. The second element in the array is the vertical offset.
-	 *                                         A positive value shifts the overlay down. Default is [0, 0].
+	 *                                         A positive value shifts the overlay down. Default is `[0, 0]`.
 	 * @property {ol.Coordinate | undefined} position The overlay position in map projection.
 	 * @property {ol.OverlayPositioning | string | undefined} positioning Defines how the overlay is actually positioned with respect to its position property.
-	 *                                                                      Possible values are 'bottom-left', 'bottom-center', 'bottom-right', 'center-left',
+	 *                                                                      Possible values are `'bottom-left', 'bottom-center', 'bottom-right', 'center-left',
 	 *                                                                      'center-center', 'center-right', 'top-left', 'top-center', and 'top-right'.
-	 *                                                                      Default is 'top-left'.
-	 * @property {boolean | undefined} stopEvent Whether event propagation to the map viewport should be stopped. Default is true.
-	 *                                           If true the overlay is placed in the same container as that of the controls (CSS class name ol-overlaycontainer-stopevent);
-	 *                                           if false it is placed in the container with CSS class name ol-overlaycontainer.
+	 *                                                                      Default is 'top-left'`.
+	 * @property {boolean | undefined} stopEvent Whether event propagation to the map viewport should be stopped. Default is `true`.
+	 *                                           If true the overlay is placed in the same container as that of the controls (CSS class name `ol-overlaycontainer-stopevent`);
+	 *                                           if false it is placed in the container with CSS class name `ol-overlaycontainer`.
 	 * @property {boolean | undefined} insertFirst Whether the overlay is inserted first in the overlay container, or appended.
-	 *                                             Default is true. If the overlay is placed in the same container as that of the controls
-	 *                                             (see the stopEvent option) you will probably set insertFirst to true so the overlay is displayed below the controls.
+	 *                                             Default is `true`. If the overlay is placed in the same container as that of the controls
+	 *                                             (see the stopEvent option) you will probably set `insertFirst` to true so the overlay is displayed below the controls.
 	 * @property {boolean | undefined} autoPan If set to true the map is panned when calling setPosition, so that the overlay is entirely visible in the current viewport.
-	 *                                         The default is true.
-	 * @property {olx.animation.PanOptions | undefined} autoPanAnimation The options used to create a ol.animation.pan animation.
-	 *                                                                   This animation is only used when autoPan is enabled.
+	 *                                         The default is `true`.
+	 * @property {olx.animation.PanOptions | undefined} autoPanAnimation The options used to create a `ol.animation.pan` animation.
+	 *                                                                   This animation is only used when `autoPan` is enabled.
 	 *                                                                   Default is `{ duration: 300, easing: easeInOutCubic }`.
-	 *                                                                   If set to null the panning is not animated.
-	 * @property {number | undefined} autoPanMargin The margin (in pixels) between the overlay and the borders of the map when autopanning. The default is 20.
+	 *                                                                   If set to `null` the panning is not animated.
+	 * @property {number | undefined} autoPanMargin The margin (in pixels) between the overlay and the borders of the map when autopanning. The default is `20`.
 	 * @property {Element | HTMLCollection | string | undefined} content Popup initial content.
 	 * @property {function | undefined} beforeShow Function that called before popup show. Can be used for show animation.
 	 * @property {function | undefined} beforeHide Function that called before popup hide. Can be used for hide animation.
@@ -381,10 +381,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        /**
 	         * Shows popup.
 	         *
-	         * @param {ol.Coordinate} coordinate
+	         * @param {ol.Coordinate} [coordinate] New popup position.
 	         * @param {Element | HTMLCollection | string} [content] Replace inner content.
 	         * @return {Promise} Returns Promise that resolves when showing completes.
-	         * @fires Popup#show
+	         * @fires Popup#show Show event.
 	         */
 
 	    }, {
@@ -396,13 +396,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this.content = content;
 	            }
 
-	            this.setPosition(coordinate);
+	            if (coordinate) {
+	                this.setPosition(coordinate);
+	            }
 
 	            return Promise.resolve(this.beforeShow_(this)).then(function () {
 	                _this3.getElement().style.display = "block";
 
 	                _this3.dispatchEvent('change:position');
 	                /**
+	                 * Show event.
+	                 *
 	                 * @event Popup#show
 	                 */
 	                _this3.dispatchEvent(PopupEventType.SHOW);
@@ -414,7 +418,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * Hides popup.
 	         *
 	         * @return {Promise} Returns Promise that resolves when hiding completes.
-	         * @fires Popup#hide
+	         * @fires Popup#hide Hide event.
 	         */
 
 	    }, {
@@ -427,6 +431,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return Promise.resolve(this.beforeHide_(this)).then(function () {
 	                _this4.getElement().style.display = "none";
 	                /**
+	                 * Hide event.
+	                 *
 	                 * @event Popup#hide
 	                 */
 	                _this4.dispatchEvent(PopupEventType.HIDE);

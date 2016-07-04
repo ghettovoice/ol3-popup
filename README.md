@@ -46,15 +46,15 @@ Click on the map to display a popup, click close to the edge of the map to see i
 
 | Name | Type | Description | 
 |------|------|-------------| 
-| **id** | *number  &#124;  string  &#124;  undefined* | Set the overlay id. The overlay id can be used with the ol.Map#getOverlayById method. |
-| **offset** | *number[]  &#124;  undefined* | Offsets in pixels used when positioning the overlay. The first element in the array is the horizontal offset. A positive value shifts the overlay right. The second element in the array is the vertical offset. A positive value shifts the overlay down. Default is [0, 0]. |
+| **id** | *number  &#124;  string  &#124;  undefined* | Set the overlay id. The overlay id can be used with the `ol.Map#getOverlayById` method. |
+| **offset** | *number[]  &#124;  undefined* | Offsets in pixels used when positioning the overlay. The first element in the array is the horizontal offset. A positive value shifts the overlay right. The second element in the array is the vertical offset. A positive value shifts the overlay down. Default is `[0, 0]`. |
 | **position** | *ol.Coordinate  &#124;  undefined* | The overlay position in map projection. |
-| **positioning** | *ol.OverlayPositioning  &#124;  string  &#124;  undefined* | Defines how the overlay is actually positioned with respect to its position property. Possible values are 'bottom-left', 'bottom-center', 'bottom-right', 'center-left', 'center-center', 'center-right', 'top-left', 'top-center', and 'top-right'. Default is 'top-left'. |
-| **stopEvent** | *boolean  &#124;  undefined* | Whether event propagation to the map viewport should be stopped. Default is true. If true the overlay is placed in the same container as that of the controls (CSS class name ol-overlaycontainer-stopevent); if false it is placed in the container with CSS class name ol-overlaycontainer. |
-| **insertFirst** | *boolean  &#124;  undefined* | Whether the overlay is inserted first in the overlay container, or appended. Default is true. If the overlay is placed in the same container as that of the controls (see the stopEvent option) you will probably set insertFirst to true so the overlay is displayed below the controls. |
-| **autoPan** | *boolean  &#124;  undefined* | If set to true the map is panned when calling setPosition, so that the overlay is entirely visible in the current viewport. The default is true. |
-| **autoPanAnimation** | *olx.animation.PanOptions  &#124;  undefined* | The options used to create a ol.animation.pan animation. This animation is only used when autoPan is enabled. Default is `{ duration: 300, easing: easeInOutCubic }`. If set to null the panning is not animated. |
-| **autoPanMargin** | *number  &#124;  undefined* | The margin (in pixels) between the overlay and the borders of the map when autopanning. The default is 20. |
+| **positioning** | *ol.OverlayPositioning  &#124;  string  &#124;  undefined* | Defines how the overlay is actually positioned with respect to its position property. Possible values are `'bottom-left', 'bottom-center', 'bottom-right', 'center-left', 'center-center', 'center-right', 'top-left', 'top-center', and 'top-right'. Default is 'top-left'`. |
+| **stopEvent** | *boolean  &#124;  undefined* | Whether event propagation to the map viewport should be stopped. Default is `true`. If true the overlay is placed in the same container as that of the controls (CSS class name `ol-overlaycontainer-stopevent`); if false it is placed in the container with CSS class name `ol-overlaycontainer`. |
+| **insertFirst** | *boolean  &#124;  undefined* | Whether the overlay is inserted first in the overlay container, or appended. Default is `true`. If the overlay is placed in the same container as that of the controls (see the stopEvent option) you will probably set `insertFirst` to true so the overlay is displayed below the controls. |
+| **autoPan** | *boolean  &#124;  undefined* | If set to true the map is panned when calling setPosition, so that the overlay is entirely visible in the current viewport. The default is `true`. |
+| **autoPanAnimation** | *olx.animation.PanOptions  &#124;  undefined* | The options used to create a `ol.animation.pan` animation. This animation is only used when `autoPan` is enabled. Default is `{ duration: 300, easing: easeInOutCubic }`. If set to `null` the panning is not animated. |
+| **autoPanMargin** | *number  &#124;  undefined* | The margin (in pixels) between the overlay and the borders of the map when autopanning. The default is `20`. |
 | **content** | *Element  &#124;  HTMLCollection  &#124;  string  &#124;  undefined* | Popup initial content. |
 | **beforeShow** | *function  &#124;  undefined* | Function that called before popup show. Can be used for show animation. |
 | **beforeHide** | *function  &#124;  undefined* | Function that called before popup hide. Can be used for hide animation. |
@@ -72,7 +72,7 @@ Click on the map to display a popup, click close to the edge of the map to see i
 - openlayers~ol.Overlay
 
 
-**Params**
+**Params:**
 
 | Name | Type | Description | 
 |------|------|-------------|
@@ -104,6 +104,8 @@ get **content** : *HTMLCollection*
 
 
 
+
+
 --------- 
 
 
@@ -113,8 +115,10 @@ get **content** : *HTMLCollection*
 
 
 
-**Return:**
+**Returns:**
 HTMLCollection - Inner content of popup.
+
+
 
 --------- 
 
@@ -134,11 +138,15 @@ HTMLCollection - Inner content of popup.
 
 
 
+
+
 --------- 
 
 
 **bringToFront**() 
 Show on top of other popups.
+
+
 
 
 
@@ -155,15 +163,22 @@ Shows popup.
 
 | Name | Type | Description | 
 |------|------|-------------|
-| **coordinate** | *ol.Coordinate* | The spatial point that the overlay is anchored at. |
+| **coordinate** | *ol.Coordinate* | New popup position. |
 | **content** | *Element  &#124;  HTMLCollection  &#124;  string* | Replace inner content. |
 
 
 
 
 
-**Return:**
+**Returns:**
 Promise - Returns Promise that resolves when showing completes.
+
+
+
+**Events:**
+
+- Popup#show Show event.
+
 
 --------- 
 
@@ -174,8 +189,15 @@ Hides popup.
 
 
 
-**Return:**
+**Returns:**
 Promise - Returns Promise that resolves when hiding completes.
+
+
+
+**Events:**
+
+- Popup#hide Hide event.
+
 
 --------- 
 

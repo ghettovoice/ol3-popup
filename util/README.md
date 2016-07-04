@@ -61,7 +61,7 @@ Click on the map to display a popup, click close to the edge of the map to see i
 - <%= ext %>
 <% }) %>
 
-**Params**
+**Params:**
 
 | Name | Type | Description | 
 |------|------|-------------|
@@ -91,8 +91,15 @@ Click on the map to display a popup, click close to the edge of the map to see i
 <% } %>
 
 <% if (method.return) { %>
-**Return:**
+**Returns:**
 <%= method.return.types.join(' &#124; ') %> - <%= method.return.description %>
+<% } %>
+
+<% if (method.fires && method.fires.length) { %>
+**Events:**
+<% method.fires.forEach(function(event) { %>
+- <%= event %>
+<% }) %>
 <% } %>
 --------- 
 <% }) %>
