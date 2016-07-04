@@ -116,6 +116,7 @@ get **content** : *HTMLCollection*
 
 
 **Returns:**
+
 HTMLCollection - Inner content of popup.
 
 
@@ -171,6 +172,7 @@ Shows popup.
 
 
 **Returns:**
+
 Promise - Returns Promise that resolves when showing completes.
 
 
@@ -190,6 +192,7 @@ Hides popup.
 
 
 **Returns:**
+
 Promise - Returns Promise that resolves when hiding completes.
 
 

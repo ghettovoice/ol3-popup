@@ -92,6 +92,7 @@ Click on the map to display a popup, click close to the edge of the map to see i
 
 <% if (method.return) { %>
 **Returns:**
+
 <%= method.return.types.join(' &#124; ') %> - <%= method.return.description %>
 <% } %>
 
