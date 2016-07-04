@@ -3,7 +3,8 @@
 # ol3-popup-umd
 
 Basic popup for an OpenLayers 3 map. By default the map is centered so that the popup is entirely visible.
-This project originally forked from [ol3-popup](https://github.com/walkermatt/ol3-popup) by Matt Walker.
+This project originally forked from [ol3-popup](https://github.com/walkermatt/ol3-popup) by Matt Walker
+and extended with new features like event emitting, additional methods and others, also packed as UMD package. 
 
 ## Installation
 
