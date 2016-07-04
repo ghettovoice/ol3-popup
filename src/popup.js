@@ -170,7 +170,7 @@ export default class Popup extends ol.Overlay {
     /**
      * Shows popup.
      *
-     * @param {ol.Coordinate} coordinate
+     * @param {ol.Coordinate} coordinate The spatial point that the overlay is anchored at.
      * @param {Element | HTMLCollection | string} [content] Replace inner content.
      * @return {Promise} Returns Promise that resolves when showing completes.
      * @fires Popup#show
