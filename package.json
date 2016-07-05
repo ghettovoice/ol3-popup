@@ -29,6 +29,9 @@
     "ol3-popup-umd"
   ],
   "dependencies": {},
+  "peerDependencies": {
+    "openlayers": ">= 3.14"
+  },
   "devDependencies": {
     "autoprefixer": "^6.3.6",
     "babel-loader": "^6.2.4",
@@ -44,7 +47,7 @@
     "glob": "^7.0.3",
     "lodash": "^4.13.1",
     "node-sass": "^3.7.0",
-    "openlayers": "^3.16.0",
+    "openlayers": "^3.17.1",
     "postcss-import": "^8.1.2",
     "postcss-loader": "^0.9.1",
     "precss": "^1.4.0",
