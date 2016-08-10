@@ -4,8 +4,8 @@
  * 
  * @package ol3-popup-umd
  * @author Vladimir Vershinin (https://github.com/ghettovoice)
- * @authorMatt Walker (http://longwayaround.org.uk),@authorAvi Kelman <patcherton.fixesthings@gmail.com>
- * @version 1.2.0
+ * @author Matt Walker (http://longwayaround.org.uk),@author Avi Kelman <patcherton.fixesthings@gmail.com>
+ * @version 1.2.1
  * @licence MIT https://opensource.org/licenses/MIT
  *          Based on OpenLayers 3. Copyright 2005-2016 OpenLayers Contributors. All rights reserved. http://openlayers.org
  * @copyright (c) 2016 Matt Walker, Vladimir Vershinin (https://github.com/ghettovoice)
@@ -396,14 +396,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this.content = content;
 	            }
 
+	            var elem = this.getElement();
+	            elem.style.display = "block";
+	            elem.style.visibility = "hidden";
+
 	            if (coordinate) {
 	                this.setPosition(coordinate);
 	            }
 
 	            return Promise.resolve(this.beforeShow_(this)).then(function () {
-	                _this3.getElement().style.display = "block";
-
-	                _this3.dispatchEvent('change:position');
+	                elem.style.visibility = "visible";
 	                /**
 	                 * Show event.
 	                 *
