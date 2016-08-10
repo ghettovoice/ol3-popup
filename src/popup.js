@@ -180,15 +180,17 @@ export default class Popup extends ol.Overlay {
             this.content = content;
         }
 
+        const elem = this.getElement();
+        elem.style.display = "block";
+        elem.style.visibility = "hidden";
+
         if (coordinate) {
             this.setPosition(coordinate);
         }
 
         return Promise.resolve(this.beforeShow_(this))
             .then(() => {
-                this.getElement().style.display = "block";
-
-                this.dispatchEvent('change:position');
+                elem.style.visibility = "visible";
                 /**
                  * Show event.
                  *

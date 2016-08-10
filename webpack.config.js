@@ -5,6 +5,7 @@ const _ = require('lodash');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const chalk = require('chalk');
+const WebpackNotifierPlugin = require('webpack-notifier');
 const packageJson = require('./package.json');
 
 const RELEASE = _.includes(process.argv, '--release');
@@ -39,7 +40,7 @@ Fork of Matt Walker ol3-popup https://github.com/walkermatt/ol3-popup
 
 @package ${packageJson.name}
 @author ${packageJson.author}
-${packageJson.contributors.map(author => '@author' + author)}
+${packageJson.contributors.map(author => '@author ' + author)}
 @version ${packageJson.version}
 @licence MIT https://opensource.org/licenses/MIT
          Based on OpenLayers 3. Copyright 2005-2016 OpenLayers Contributors. All rights reserved. http://openlayers.org
@@ -52,7 +53,10 @@ const plugins = [
         format: ' build ' + chalk.magenta.bold('[ol3-popup-umd]') + ' ' + chalk.cyan.bold('[:bar]') +
                 ' ' + chalk.green.bold(':percent') + ' (:elapsed seconds)'
     }),
-    new ExtractTextPlugin(`${bundleName}.css`, true)
+    new ExtractTextPlugin(`${bundleName}.css`, true),
+    new WebpackNotifierPlugin({
+        title: packageJson.name
+    })
 ];
 
 if (DEBUG) {

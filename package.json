@@ -1,6 +1,6 @@
 {
   "name": "ol3-popup-umd",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Popup overlay for OpenLayers 3 with UMD wrapper",
   "main": "dist/bundle.js",
   "scripts": {
@@ -58,7 +58,8 @@
     "taffydb": "^2.7.2",
     "velocity-animate": "^1.2.3",
     "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "webpack-notifier": "^1.3.2"
   },
   "babel": {
     "presets": [
