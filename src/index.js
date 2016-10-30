@@ -9,7 +9,7 @@
  *          Based on OpenLayers 3. Copyright 2005-2016 OpenLayers Contributors. All rights reserved. http://openlayers.org
  * @copyright (c) 2016 Matt Walker, Vladimir Vershinin
  */
-import Popup from './popup';
+import Popup from './Popup';
 import './popup.scss';
 
 export default Popup;

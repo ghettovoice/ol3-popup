@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/ghettovoice/ol3-popup-umd.svg?branch=master)](https://travis-ci.org/ghettovoice/ol3-popup-umd)
 [![view on npm](http://img.shields.io/npm/v/ol3-popup-umd.svg)](https://www.npmjs.org/package/ol3-popup-umd)
 
 # ol3-popup-umd
@@ -45,8 +46,8 @@ Click on the map to display a popup, click close to the edge of the map to see i
 
 **Properties**
 
-| Name | Type | Description | 
-|------|------|-------------| 
+| Name  | Type  | Description  | 
+|:------|:------|:-------------| 
 <% doc.properties.forEach(function(prop) { %>| **<%= prop.name %>** | *<%= prop.types.join(' &#124; ') %>* | <%= prop.description %> |
 <% }) %>
 
@@ -64,8 +65,8 @@ Click on the map to display a popup, click close to the edge of the map to see i
 
 **Params:**
 
-| Name | Type | Description | 
-|------|------|-------------|
+| Name  | Type  | Description  | 
+|:------|:------|:-------------|
 <% doc.constructor.params.forEach(function(param) { %>| **<%= param.name %>** | *<%= param.types.join(' &#124; ') %>* | <%= param.description %> |
 <% }) %>
 
@@ -84,8 +85,8 @@ Click on the map to display a popup, click close to the edge of the map to see i
 
 **Params:**
 
-| Name | Type | Description | 
-|------|------|-------------|
+| Name  | Type  | Description  | 
+|:------|:------|:-------------|
 <% method.params.forEach(function(param) { %>| **<%= param.name %>** | *<%= param.types.join(' &#124; ') %>* | <%= param.description %> |
 <% }) %>
 

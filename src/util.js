@@ -5,7 +5,15 @@
  * @return {*} First argument that is not equal `undefined` or `null`
  */
 export function coalesce(arg1, arg2, ...args) {
-    return Array.from(arguments).find(value => value != null);
+    return [].slice.call(arguments).find(value => value != null);
+}
+
+/**
+ * @param {*} value
+ * @return {Array}
+ */
+export function toArray(value) {
+    return isArrayLike(value) ? [].slice.call(value) : [];
 }
 
 /**
@@ -58,7 +66,7 @@ export function isObject(value) {
 export function isString(value) {
     return value != null && (
         typeof value === 'string' ||
-        isObject(value) && Object.prototype.toString(value) === '[object String]'
+        isObject(value) && Object.prototype.toString.call(value) === '[object String]'
     );
 }
 

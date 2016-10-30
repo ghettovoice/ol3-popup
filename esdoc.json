@@ -1,7 +1,7 @@
 {
   "source": "./src",
   "destination": "./esdoc",
-  "includes": ["popup\\.js$"],
+  "includes": ["Popup\\.js$"],
   "plugins": [
     {"name": "esdoc-es7-plugin"}
   ]

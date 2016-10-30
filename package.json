@@ -1,6 +1,6 @@
 {
   "name": "ol3-popup-umd",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Popup overlay for OpenLayers 3 with UMD wrapper",
   "main": "dist/bundle.js",
   "scripts": {
@@ -8,12 +8,14 @@
     "build": "webpack --build --verbose",
     "serv": "webpack-dev-server",
     "docs": "node util/docgen.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha-phantomjs tests/index.html",
+    "all": "npm run build && npm run release && npm run test && npm run docs"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ghettovoice/ol3-popup-umd.git"
   },
+  "homepage": "https://github.com/ghettovoice/ol3-popup-umd",
   "author": "Vladimir Vershinin (https://github.com/ghettovoice)",
   "contributors": [
     "Matt Walker (http://longwayaround.org.uk)",
@@ -33,42 +35,41 @@
     "openlayers": ">= 3.14"
   },
   "devDependencies": {
-    "autoprefixer": "^6.3.6",
-    "babel-loader": "^6.2.4",
+    "autoprefixer": "^6.5.1",
+    "babel-loader": "^6.2.7",
     "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-transform-flow-strip-types": "^6.8.0",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-stage-0": "^6.5.0",
+    "babel-plugin-transform-flow-strip-types": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "chai": "^3.5.0",
     "chalk": "^1.1.3",
-    "css-loader": "^0.23.1",
-    "esdoc": "^0.4.7",
+    "css-loader": "^0.25.0",
+    "es6-promise": "^4.0.5",
+    "esdoc": "^0.4.8",
     "esdoc-es7-plugin": "0.0.3",
     "extract-text-webpack-plugin": "^1.0.1",
-    "glob": "^7.0.3",
-    "lodash": "^4.13.1",
-    "node-sass": "^3.7.0",
-    "openlayers": "^3.17.1",
+    "glob": "^7.1.1",
+    "lodash": "^4.16.4",
+    "mocha": "^3.1.2",
+    "mocha-phantomjs": "^4.1.0",
+    "node-sass": "^3.10.1",
+    "openlayers": "^3.19.1",
     "postcss-import": "^8.1.2",
-    "postcss-loader": "^0.9.1",
+    "postcss-loader": "^1.1.0",
     "precss": "^1.4.0",
-    "progress-bar-webpack-plugin": "^1.8.0",
-    "resolve-url-loader": "^1.4.3",
-    "sass-loader": "^3.2.0",
+    "progress-bar-webpack-plugin": "^1.9.0",
+    "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
-    "taffydb": "^2.7.2",
-    "velocity-animate": "^1.2.3",
-    "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1",
-    "webpack-notifier": "^1.3.2"
+    "taffydb": "^2.7.3",
+    "velocity-animate": "^1.3.1",
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2",
+    "webpack-notifier": "^1.4.1"
   },
-  "babel": {
-    "presets": [
-      "es2015",
-      "stage-0"
-    ],
-    "plugins": [
-      "transform-flow-strip-types",
-      "add-module-exports"
-    ]
-  }
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist",
+    "src"
+  ]
 }

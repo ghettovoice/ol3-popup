@@ -1,6 +1,7 @@
 /**
  * Easing functions pack
  */
+//noinspection JSUnusedGlobalSymbols
 /**
  * @param t
  * @return {number}
@@ -9,6 +10,7 @@ export function easeInQuad(t) {
     return t * t;
 }
 
+//noinspection JSUnusedGlobalSymbols
 /**
  * @param t
  * @return {number}
@@ -17,6 +19,7 @@ export function easeOutQuad(t) {
     return t * (2 - t);
 }
 
+//noinspection JSUnusedGlobalSymbols
 /**
  * @param t
  * @return {number}
@@ -27,6 +30,7 @@ export function easeInOutQuad(t) {
            -1 + (4 - 2 * t) * t;
 }
 
+//noinspection JSUnusedGlobalSymbols
 /**
  * @param t
  * @return {number}
@@ -35,6 +39,7 @@ export function easeInCubic(t) {
     return t * t * t;
 }
 
+//noinspection JSUnusedGlobalSymbols
 /**
  * @param t
  * @return {number}

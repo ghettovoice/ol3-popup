@@ -1,5 +1,5 @@
 import ol from "openlayers";
-import { coalesce, createElement, emptyElement, isElement, isString, isArrayLike, noop } from "./util";
+import * as util from "./util";
 import * as easing from "./easing";
 
 /**
@@ -9,7 +9,7 @@ import * as easing from "./easing";
  *                                         A positive value shifts the overlay right. The second element in the array is the vertical offset.
  *                                         A positive value shifts the overlay down. Default is `[0, 0]`.
  * @property {ol.Coordinate | undefined} position The overlay position in map projection.
- * @property {ol.OverlayPositioning | string | undefined} positioning Defines how the overlay is actually positioned with respect to its position property.
+ * @property {ol.Overlay.Positioning | string | undefined} positioning Defines how the overlay is actually positioned with respect to its position property.
  *                                                                      Possible values are `bottom-left`, `bottom-center`, `bottom-right`, `center-left`,
  *                                                                      `center-center`, `center-right`, `top-left`, `top-center`, and `top-right`.
  *                                                                      Default is `top-left`.
@@ -59,8 +59,8 @@ export default class Popup extends ol.Overlay {
     constructor(options = {}) {
         const element = createDOMElement();
 
-        options.autoPan = coalesce(options.autoPan, true);
-        options.autoPanAnimation = coalesce(options.autoPanAnimation, {
+        options.autoPan = util.coalesce(options.autoPan, true);
+        options.autoPanAnimation = util.coalesce(options.autoPanAnimation, {
             duration: 300,
             easing: easing.easeInOutCubic
         });
@@ -74,12 +74,12 @@ export default class Popup extends ol.Overlay {
          * @type {function}
          * @private
          */
-        this.beforeShow_ = coalesce(options.beforeShow, noop);
+        this.beforeShow_ = util.coalesce(options.beforeShow, util.noop);
         /**
          * @type {function}
          * @private
          */
-        this.beforeHide_ = coalesce(options.beforeHide, noop);
+        this.beforeHide_ = util.coalesce(options.beforeHide, util.noop);
         /**
          * @type {Element}
          * @private
@@ -111,8 +111,9 @@ export default class Popup extends ol.Overlay {
         this.setContent(content);
     }
 
+    //noinspection JSUnusedGlobalSymbols
     /**
-     * @type {HTMLCollection} Inner content of popup.
+     * @type {Element} Inner content of popup.
      */
     get content() {
         return this.getContent();
@@ -122,24 +123,25 @@ export default class Popup extends ol.Overlay {
      * @param {Element | HTMLCollection | string} content Update popup inner content.
      */
     setContent(content) {
-        emptyElement(this.content_);
+        util.emptyElement(this.content_);
 
-        if (isElement(content)) {
+        if (util.isElement(content)) {
             this.content_.appendChild(content);
-        } else if (isString(content)) {
+        } else if (util.isString(content)) {
             this.content_.insertAdjacentHTML('afterBegin', content);
-        } else if (isArrayLike(content)) {
-            [].slice.call(content).forEach(elem => this.content_.appendChild(elem));
+        } else if (util.isArrayLike(content)) {
+            util.toArray(content).forEach(elem => this.content_.appendChild(elem));
         }
     }
 
     /**
-     * @returns {HTMLCollection} Inner content of popup.
+     * @returns {Element} Inner content of popup.
      */
     getContent() {
-        return this.content_.children;
+        return this.content_;
     }
 
+    //noinspection JSUnusedGlobalSymbols
     /**
      * @param {ol.Map} map OpenLayers map object.
      */
@@ -160,7 +162,7 @@ export default class Popup extends ol.Overlay {
     bringToFront() {
         const container = this.getElement().parentNode;
         const overlaysContainer = container.parentNode;
-        const lastOverlay = Array.from(overlaysContainer.querySelectorAll(".ol-overlay-container")).pop();
+        const lastOverlay = util.toArray(overlaysContainer.querySelectorAll(".ol-overlay-container")).pop();
 
         if (lastOverlay && lastOverlay !== container) {
             overlaysContainer.insertBefore(container, lastOverlay.nextSibling);
@@ -282,15 +284,15 @@ export default class Popup extends ol.Overlay {
  * @private
  */
 function createDOMElement() {
-    const element = createElement('div', 'ol-popup');
-    const closer = createElement('a', 'ol-popup-closer', {
+    const element = util.createElement('div', 'ol-popup');
+    const closer = util.createElement('a', 'ol-popup-closer', {
         href: '#'
     });
 
     element.appendChild(closer);
 
     // append content container
-    const content = createElement('div', 'ol-popup-content');
+    const content = util.createElement('div', 'ol-popup-content');
     element.appendChild(content);
 
     return element;
