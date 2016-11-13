@@ -9,10 +9,11 @@ and extended with new features like event emitting, additional methods and other
 
 ## Installation
 
-Install it thought NPM:
+Install it thought NPM or Bower:
 
 ```shell
 npm install ol3-popup-umd
+bower install ol3-popup-umd
 ```
 
 Or download the latest version archive and add it with script tag:
