@@ -1,0 +1,32 @@
+{
+  "name": "ol3-popup-umd",
+  "description": "Popup overlay for OpenLayers 3 with UMD wrapper",
+  "main": "dist/bundle.js",
+  "authors": [
+    "Matt Walker (http://longwayaround.org.uk)",
+    "Avi Kelman <patcherton.fixesthings@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "ol3",
+    "openlayers",
+    "ol3-popup-umd"
+  ],
+  "homepage": "https://github.com/ghettovoice/ol3-popup-umd",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ghettovoice/ol3-popup-umd.git"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "moduleType": [
+    "globals",
+    "amd",
+    "node"
+  ]
+}
