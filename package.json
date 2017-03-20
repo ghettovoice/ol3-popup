@@ -1,38 +1,39 @@
 {
-  "name": "ol3-popup-umd",
-  "version": "1.3.0",
-  "description": "Popup overlay for OpenLayers 3 with UMD wrapper",
+  "name": "ol-popup-umd",
+  "version": "1.3.1",
+  "description": "Popup overlay for OpenLayers with UMD wrapper",
   "main": "dist/bundle.js",
   "scripts": {
     "release": "webpack --release --verbose",
     "build": "webpack --build --verbose",
     "serv": "webpack-dev-server",
+    "start": "npm run serv",
     "docs": "node util/docgen.js",
     "test": "mocha-phantomjs tests/test.html",
     "all": "npm run build && npm run release && npm run test && npm run docs"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ghettovoice/ol3-popup-umd.git"
+    "url": "https://github.com/ghettovoice/ol-popup-umd.git"
   },
-  "homepage": "https://github.com/ghettovoice/ol3-popup-umd",
-  "author": "Vladimir Vershinin (https://github.com/ghettovoice)",
+  "homepage": "https://github.com/ghettovoice/ol-popup-umd",
+  "author": "Vladimir Vershinin <ghettovoice@gmail.com>",
   "contributors": [
     "Matt Walker (http://longwayaround.org.uk)",
     "Avi Kelman <patcherton.fixesthings@gmail.com>"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ghettovoice/ol3-popup-umd/issues"
+    "url": "https://github.com/ghettovoice/ol-popup-umd/issues"
   },
   "keywords": [
-    "ol3",
+    "ol",
     "openlayers",
-    "ol3-popup-umd"
+    "ol-popup-umd"
   ],
   "dependencies": {},
   "peerDependencies": {
-    "openlayers": ">= 3.14"
+    "openlayers": ">=3.14"
   },
   "devDependencies": {
     "autoprefixer": "^6.5.1",
@@ -53,7 +54,7 @@
     "mocha": "^3.1.2",
     "mocha-phantomjs": "^4.1.0",
     "node-sass": "^3.10.1",
-    "openlayers": "^3.19.1",
+    "openlayers": "^4.0.1",
     "postcss-import": "^8.1.2",
     "postcss-loader": "^1.1.0",
     "precss": "^1.4.0",

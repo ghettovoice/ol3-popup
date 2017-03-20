@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ol3-popup-umd.iml" filepath="$PROJECT_DIR$/ol3-popup-umd.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ol-popup-umd.iml" filepath="$PROJECT_DIR$/ol-popup-umd.iml" />
     </modules>
   </component>
 </project>

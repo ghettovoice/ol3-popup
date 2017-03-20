@@ -1,9 +1,12 @@
-[![Build Status](https://travis-ci.org/ghettovoice/ol3-popup-umd.svg?branch=master)](https://travis-ci.org/ghettovoice/ol3-popup-umd)
-[![view on npm](http://img.shields.io/npm/v/ol3-popup-umd.svg)](https://www.npmjs.org/package/ol3-popup-umd)
+[![Build Status](https://travis-ci.org/ghettovoice/ol-popup-umd.svg?branch=master)](https://travis-ci.org/ghettovoice/ol-popup-umd)
+[![view on npm](http://img.shields.io/npm/v/ol-popup-umd.svg)](https://www.npmjs.org/package/ol-popup-umd)
+[![License](https://img.shields.io/github/license/ghettovoice/ol-popup-umd.svg)](https://github.com/ghettovoice/ol-popup-umd/blob/master/LICENSE)
 
-# ol3-popup-umd
+# ol-popup-umd
 
-Basic popup for an OpenLayers 3 map. By default the map is centered so that the popup is entirely visible.
+> Popup overlay for OpenLayers with UMD wrapper
+
+Basic popup for an [OpenLayers](http://openlayers.org) lib. By default the map is centered so that the popup is entirely visible.
 This project originally forked from [ol3-popup](https://github.com/walkermatt/ol3-popup) by Matt Walker
 and extended with new features like event emitting, additional methods and others, also packed as UMD package. 
 
@@ -12,13 +15,13 @@ and extended with new features like event emitting, additional methods and other
 Install it thought NPM:
 
 ```shell
-npm install ol3-popup-umd
+npm install ol-popup-umd
 ```
 
 Or download the latest version archive and add it with script tag:
 
 ```html
-<script src="ol3-popup-umd/dist/bundle.min.js"></script>
+<script src="ol-popup-umd/dist/bundle.min.js"></script>
 ```
 
 ## Usage
@@ -26,8 +29,8 @@ Or download the latest version archive and add it with script tag:
 Plugin is packed into UMD wrapper, import it with CommonJS or ES6:
 
 ```js
-import PopupOverlay from 'ol3-popup-umd';
-const PopupOverlay = require('ol3-popup-umd');
+import PopupOverlay from 'ol-popup-umd';
+const PopupOverlay = require('ol-popup-umd');
 ```
 
 In Browser environment it is available as `ol.PopupOverlay`.

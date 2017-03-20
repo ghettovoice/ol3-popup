@@ -50,7 +50,7 @@ const PopupEventType = {
 };
 
 /**
- * Popup Overlay for OpenLayer 3.
+ * Popup Overlay for OpenLayers.
  */
 export default class Popup extends ol.Overlay {
     /**

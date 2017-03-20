@@ -1,14 +1,13 @@
 /*!
- * Popup overlay for OpenLayers 3 with UMD wrapper
+ * Popup overlay for OpenLayers with UMD wrapper
  * Fork of Matt Walker ol3-popup https://github.com/walkermatt/ol3-popup
  * 
- * @package ol3-popup-umd
- * @author Vladimir Vershinin (https://github.com/ghettovoice)
+ * @package ol-popup-umd
+ * @author Vladimir Vershinin <ghettovoice@gmail.com>
  * @author Matt Walker (http://longwayaround.org.uk),@author Avi Kelman <patcherton.fixesthings@gmail.com>
- * @version 1.3.0
+ * @version 1.3.1
  * @licence MIT https://opensource.org/licenses/MIT
- *          Based on OpenLayers 3. Copyright 2005-2016 OpenLayers Contributors. All rights reserved. http://openlayers.org
- * @copyright (c) 2016 Matt Walker, Vladimir Vershinin (https://github.com/ghettovoice)
+ * @copyright (c) 2016-2017 Matt Walker, Vladimir Vershinin <ghettovoice@gmail.com>
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -79,7 +78,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__webpack_require__(4);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	
 	/**
 	 * Popup overlay for OpenLayers 3 with UMD wrapper.
 	 * Fork of Matt Walker ol3-popup https://github.com/walkermatt/ol3-popup
@@ -88,8 +87,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @author Matt Walker (http://longwayaround.org.uk)
 	 * @author Avi Kelman <patcherton.fixesthings@gmail.com>
 	 * @licence MIT https://opensource.org/licenses/MIT
-	 *          Based on OpenLayers 3. Copyright 2005-2016 OpenLayers Contributors. All rights reserved. http://openlayers.org
-	 * @copyright (c) 2016 Matt Walker, Vladimir Vershinin
+	 * @copyright (c) 2016-2017 Matt Walker, Vladimir Vershinin
 	 */
 	exports.default = _Popup2.default;
 	module.exports = exports['default'];
@@ -180,7 +178,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	
 	/**
-	 * Popup Overlay for OpenLayer 3.
+	 * Popup Overlay for OpenLayers.
 	 */
 	
 	var Popup = function (_ol$Overlay) {
@@ -189,7 +187,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * @param {PopupOptions} [options] Popup options.
 	     */
-	
 	    function Popup() {
 	        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	
@@ -207,7 +204,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * @type {function}
 	         * @private
 	         */
-	
 	        var _this = _possibleConstructorReturn(this, (Popup.__proto__ || Object.getPrototypeOf(Popup)).call(this, _extends({}, options, {
 	            element: element
 	        })));
@@ -514,17 +510,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function enableTouchScroll(elm) {
 	    if (isTouchDevice()) {
-	        (function () {
-	            var scrollStartPos = 0;
+	        var scrollStartPos = 0;
 	
-	            elm.addEventListener("touchstart", function (event) {
-	                scrollStartPos = this.scrollTop + event.touches[0].pageY;
-	            }, false);
+	        elm.addEventListener("touchstart", function (event) {
+	            scrollStartPos = this.scrollTop + event.touches[0].pageY;
+	        }, false);
 	
-	            elm.addEventListener("touchmove", function (event) {
-	                this.scrollTop = scrollStartPos - event.touches[0].pageY;
-	            }, false);
-	        })();
+	        elm.addEventListener("touchmove", function (event) {
+	            this.scrollTop = scrollStartPos - event.touches[0].pageY;
+	        }, false);
 	    }
 	}
 	module.exports = exports["default"];
@@ -610,7 +604,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 	
 	exports.coalesce = coalesce;
 	exports.toArray = toArray;

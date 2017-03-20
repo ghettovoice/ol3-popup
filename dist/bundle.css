@@ -1,14 +1,13 @@
 /*!
- * Popup overlay for OpenLayers 3 with UMD wrapper
+ * Popup overlay for OpenLayers with UMD wrapper
  * Fork of Matt Walker ol3-popup https://github.com/walkermatt/ol3-popup
  * 
- * @package ol3-popup-umd
- * @author Vladimir Vershinin (https://github.com/ghettovoice)
+ * @package ol-popup-umd
+ * @author Vladimir Vershinin <ghettovoice@gmail.com>
  * @author Matt Walker (http://longwayaround.org.uk),@author Avi Kelman <patcherton.fixesthings@gmail.com>
- * @version 1.3.0
+ * @version 1.3.1
  * @licence MIT https://opensource.org/licenses/MIT
- *          Based on OpenLayers 3. Copyright 2005-2016 OpenLayers Contributors. All rights reserved. http://openlayers.org
- * @copyright (c) 2016 Matt Walker, Vladimir Vershinin (https://github.com/ghettovoice)
+ * @copyright (c) 2016-2017 Matt Walker, Vladimir Vershinin <ghettovoice@gmail.com>
  */
 .ol-popup {
   display: none;
