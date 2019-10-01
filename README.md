@@ -2,7 +2,7 @@
 [![view on npm](http://img.shields.io/npm/v/ol-popup-umd.svg)](https://www.npmjs.org/package/ol-popup-umd)
 [![License](https://img.shields.io/github/license/ghettovoice/ol-popup-umd.svg)](https://github.com/ghettovoice/ol-popup-umd/blob/master/LICENSE)
 
-# ol-popup-umd
+# ol-popup-umd [DEPRECATED]
 
 > Popup overlay for OpenLayers with UMD wrapper
 
